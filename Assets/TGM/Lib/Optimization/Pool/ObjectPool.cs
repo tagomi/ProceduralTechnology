@@ -95,6 +95,24 @@ namespace TGM.Lib.Optimization.Pool
 			Assert.IsNotNull(this.collectingPredicate);
 		}
 
+		/// <summary>オブジェクトプールを空にする</summary>
+		public virtual void Clear()
+		{
+			var removedObjects = this.pooledObjectDictionary.Keys.ToArray();
+			this.pooledObjectDictionary.Clear();
+			// 全てのオブジェクトに取り除いた後の後始末処理を行う
+			foreach (var removedObject in removedObjects)
+			{
+				this.settlingAfterRemovingAction?.Invoke(removedObject);
+			}
+		}
+
+		/// <summary>オブジェクトプールの破棄処理</summary>
+		public virtual void Destroy()
+		{
+			this.Clear();
+		}
+
 		/// <summary>プール可能な最大数を設定する</summary>
 		/// <remarks>使用中のオブジェクトが多い場合には、キャパシティを減らせない場合があります</remarks>
 		/// <param name="capacity">プール可能な最大数</param>

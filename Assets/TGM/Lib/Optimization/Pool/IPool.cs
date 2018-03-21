@@ -28,6 +28,9 @@
 
 		#region Methods
 
+		/// <summary>オブジェクトプールを空にする</summary>
+		void Clear();
+
 		/// <summary>プール可能な最大数を設定する</summary>
 		/// <param name="capacity">プール可能な最大数</param>
 		/// <returns>変更後のキャパシティ</returns>
