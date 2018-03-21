@@ -12,12 +12,16 @@ namespace TGM.Lib.Optimization.Pool
 	/// <seealso cref="TGM.Lib.Optimization.Pool.IPool{T}" />
 	public class ObjectPool<T> : IPool<T> where T : class
 	{
-		#region Variables
+		#region Delegates
 
 		/// <summary>プールオブジェクトを作るためのデリゲート</summary>
 		/// <param name="count">作成数<param>
 		/// <returns>作成したオブジェクト</returns>
 		public delegate IEnumerable<T> CreateDelegate(int count);
+
+		#endregion Delegates
+
+		#region Variables
 
 		/// <summary>プールされているオブジェクトをキー、利用可能かを値に持つ辞書</summary>
 		protected readonly Dictionary<T, bool> pooledObjectDictionary;
