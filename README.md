@@ -8,7 +8,7 @@
 ### 利用しているソフトウェアのライセンス表記
 * UniRx  
 https://github.com/neuecc/UniRx  
-Copyright (c) 2014 Yoshifumi Kawai
+Copyright (c) 2014 Yoshifumi Kawai  
 Released under the MIT license  
 https://github.com/neuecc/UniRx/blob/master/LICENSE   
   
