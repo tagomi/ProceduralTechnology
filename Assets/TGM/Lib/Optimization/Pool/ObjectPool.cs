@@ -67,13 +67,13 @@ namespace TGM.Lib.Optimization.Pool
 		#region Methods
 
 		/// <summary>コンストラクタ <see cref="ObjectPool{T}" /> class.</summary>
-		/// <param name="capacity">を表す数値</param>
+		/// <param name="capacity">プール可能数</param>
 		/// <param name="createDelegate">プールオブジェクトを作る処理</param>
-		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
 		/// <param name="collectingPredicate">オブジェクトの回収条件</param>
+		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
 		/// <param name="settlingAfterCollectingAction">オブジェクトの改修後に行う処理</param>
 		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
-		public ObjectPool(int capacity, CreateDelegate createDelegate, Action<T> preparingToGetAction, Predicate<T> collectingPredicate, Action<T> settlingAfterCollectingAction, Action<T> settlingAfterRemovingAction)
+		public ObjectPool(int capacity, CreateDelegate createDelegate, Predicate<T> collectingPredicate, Action<T> preparingToGetAction = null, Action<T> settlingAfterCollectingAction = null, Action<T> settlingAfterRemovingAction = null)
 		{
 			this.pooledObjectDictionary = new Dictionary<T, bool>(capacity);
 
