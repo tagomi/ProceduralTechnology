@@ -43,8 +43,9 @@ namespace TGM.Lib.Optimization.Pool
 		/// <returns>プールされているオブジェクト</returns>
 		T Get(Action<T> advancedSettlingAfterCollectingAction);
 
-		/// <summary>プールオブジェクトをキャパシティまで補充する</summary>
-		void SupplementObjects();
+		/// <summary>プールオブジェクトを作る</summary>
+		/// <param name="count">作る数</param>
+		void CreateObjects(int count);
 
 		#endregion Methods
 	}

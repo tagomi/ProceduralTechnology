@@ -68,12 +68,13 @@ namespace TGM.Lib.Optimization.Pool
 
 		/// <summary>コンストラクタ <see cref="ObjectPool{T}" /> class.</summary>
 		/// <param name="capacity">プール可能数</param>
+		/// <param name="initCount">最初にプールするオブジェクト数</param>
 		/// <param name="createDelegate">プールオブジェクトを作る処理</param>
 		/// <param name="collectingPredicate">オブジェクトの回収条件</param>
 		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
 		/// <param name="settlingAfterCollectingAction">オブジェクトの改修後に行う処理</param>
 		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
-		public ObjectPool(int capacity, CreateDelegate createDelegate, Predicate<T> collectingPredicate, Action<T> preparingToGetAction = null, Action<T> settlingAfterCollectingAction = null, Action<T> settlingAfterRemovingAction = null)
+		public ObjectPool(int capacity, int initCount, CreateDelegate createDelegate, Predicate<T> collectingPredicate, Action<T> preparingToGetAction = null, Action<T> settlingAfterCollectingAction = null, Action<T> settlingAfterRemovingAction = null)
 		{
 			this.pooledObjectDictionary = new Dictionary<T, bool>(capacity);
 
@@ -85,7 +86,7 @@ namespace TGM.Lib.Optimization.Pool
 
 			this.SetCapacity(capacity);
 			// プールオブジェクトを用意
-			this.SupplementObjects();
+			this.CreateObjects(initCount);
 			// 念の為、正確に利用可能なオブジェクト数を調べる
 			this.AvailableCount =
 				this.pooledObjectDictionary
@@ -151,11 +152,14 @@ namespace TGM.Lib.Optimization.Pool
 			return this.Capacity;
 		}
 
-		/// <summary>プールオブジェクトをキャパシティまで補充する</summary>
-		public virtual void SupplementObjects()
+		/// <summary>プールオブジェクトを作る</summary>
+		/// <param name="count">作る数</param>
+		public virtual void CreateObjects(int count)
 		{
-			int insufficiency = this.Capacity - this.Count;
-			var createdObjects = this.createDelegate(insufficiency);
+			int remainingCapacity = this.Capacity - this.Count;
+			int createCount = Math.Min(count, remainingCapacity);
+
+			var createdObjects = this.createDelegate(createCount);
 			foreach (var createdObject in createdObjects)
 			{
 				this.AddObject(createdObject, true);
