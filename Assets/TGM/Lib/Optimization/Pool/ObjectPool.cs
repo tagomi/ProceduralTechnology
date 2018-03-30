@@ -163,8 +163,9 @@ namespace TGM.Lib.Optimization.Pool
 		}
 
 		/// <summary>プールされているオブジェクトを取得する</summary>
+		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>プールされているオブジェクト</returns>
-		public virtual T Get()
+		public virtual T Get(Action<T> advancedSettlingAfterCollectingAction)
 		{
 			if (this.AvailableCount > 0)
 			{
@@ -174,7 +175,7 @@ namespace TGM.Lib.Optimization.Pool
 					.First()
 					.Key;
 
-				return this.PrepareObject(@object);
+				return this.PrepareObject(@object, advancedSettlingAfterCollectingAction);
 			}
 
 			if (this.Count >= this.Capacity)
@@ -187,13 +188,14 @@ namespace TGM.Lib.Optimization.Pool
 			T createdObject = this.createDelegate(1).First();
 			this.AddObject(createdObject, true);
 
-			return this.PrepareObject(createdObject);
+			return this.PrepareObject(createdObject, advancedSettlingAfterCollectingAction);
 		}
 
 		/// <summary>取得前にオブジェクトの準備を行う</summary>
 		/// <param name="targetObject">準備を行うオブジェクト</param>
+		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>準備したオブジェクト</returns>
-		protected virtual T PrepareObject(T targetObject)
+		protected virtual T PrepareObject(T targetObject, Action<T> advancedSettlingAfterCollectingAction)
 		{
 			if (targetObject == null)
 			{
@@ -223,6 +225,7 @@ namespace TGM.Lib.Optimization.Pool
 
 					// 回収後処理
 					this.settlingAfterCollectingAction?.Invoke(targetObject);
+					advancedSettlingAfterCollectingAction?.Invoke(targetObject);
 				});
 
 			return targetObject;

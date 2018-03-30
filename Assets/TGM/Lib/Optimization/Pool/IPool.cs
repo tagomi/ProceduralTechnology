@@ -1,4 +1,6 @@
-﻿namespace TGM.Lib.Optimization.Pool
+﻿using System;
+
+namespace TGM.Lib.Optimization.Pool
 {
 	/// <summary>オブジェクトプール用のインターフェイス</summary>
 	/// <typeparam name="T">プールするオブジェクトの型</typeparam>
@@ -37,8 +39,9 @@
 		int SetCapacity(int capacity);
 
 		/// <summary>プールされているオブジェクトを取得する</summary>
+		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>プールされているオブジェクト</returns>
-		T Get();
+		T Get(Action<T> advancedSettlingAfterCollectingAction);
 
 		/// <summary>プールオブジェクトをキャパシティまで補充する</summary>
 		void SupplementObjects();
