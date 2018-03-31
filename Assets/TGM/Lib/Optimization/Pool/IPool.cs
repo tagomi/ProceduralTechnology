@@ -70,6 +70,13 @@ namespace TGM.Lib.Optimization.Pool
 		/// <returns>プールされているオブジェクト</returns>
 		T Get(Action<T> advancedSettlingAfterCollectingAction);
 
+		/// <summary>
+		/// プールオブジェクトを取り除く
+		/// </summary>
+		/// <param name="object">取り除くプールオブジェクト</param>
+		/// <returns>取り除かれたオブジェクト</returns>
+		T RemoveObject(T @object);
+
 		#endregion Methods
 	}
 }
