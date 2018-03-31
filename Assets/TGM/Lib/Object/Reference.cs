@@ -37,7 +37,7 @@ namespace TGM.Lib.Object
 		/// <summary>
 		/// 引数の<see cref="System.Object" />がこのインスタンスと同値かを返す
 		/// </summary>
-		/// <param name="obj">このインスタンスと比較をする<see cref="System.Object"のインスタンス/></param>
+		/// <param name="obj">このインスタンスと比較をする<see cref="System.Object" />のインスタンス</param>
 		/// <returns><c>true</c>引数の<see cref="System.Object" />と同値。そうでなければ、<c>false</c></returns>
 		public override bool Equals(object obj)
 		{
@@ -54,7 +54,7 @@ namespace TGM.Lib.Object
 		}
 
 		/// <summary>
-		/// このインスタンスの説明である<see cref="System.String"を返す/>
+		/// このインスタンスの説明である<see cref="System.String" />を返す
 		/// </summary>
 		/// <returns>このインスタンスの説明である<see cref="System.String" /></returns>
 		public override string ToString()
