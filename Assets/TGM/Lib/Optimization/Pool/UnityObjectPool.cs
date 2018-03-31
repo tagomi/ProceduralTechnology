@@ -142,11 +142,11 @@ namespace TGM.Lib.Optimization.Pool
 			T obj = null;
 			while (obj == null)
 			{
-				var gettedRef = this.objectPool.Get(UnityObjectPool<T>.ProcessAction(advancedSettlingAfterCollectingAction));
-				obj = gettedRef.target;
+				var gottenRef = this.objectPool.Get(UnityObjectPool<T>.ProcessAction(advancedSettlingAfterCollectingAction));
+				obj = gottenRef.target;
 				if (obj == null)
 				{
-					this.RemoveObject(gettedRef);
+					this.RemoveObject(gottenRef);
 				}
 			}
 
