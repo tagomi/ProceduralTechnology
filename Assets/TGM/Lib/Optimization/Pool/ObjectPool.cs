@@ -14,8 +14,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using UniRx;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace TGM.Lib.Optimization.Pool
@@ -309,7 +309,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="object">取り除くプールオブジェクト</param>
 		/// <returns>取り除かれたオブジェクト</returns>
-		protected T RemoveObject(T @object)
+		public virtual T RemoveObject(T @object)
 		{
 			this.pooledObjectDictionary.Remove(@object);
 			this.AvailableCount = this.AvailableCount - 1;
