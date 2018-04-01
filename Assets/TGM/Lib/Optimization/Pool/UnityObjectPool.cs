@@ -1,16 +1,17 @@
 ﻿// ***********************************************************************
 // Assembly         : Assembly-CSharp
 // Author           : ただのごみ
-// Created          : 03-31-2018
+// Created          : 04-01-2018
 //
 // Last Modified By : ただのごみ
 // Last Modified On : 04-01-2018
 // ***********************************************************************
-// <copyright file="GameObjectPool.cs" company="">
-//     Copyright (c) ただのごみ. Released under the MIT license.
+// <copyright file="UnityObjectPool.cs" company="">
+//     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 using System;
 using System.Linq;
 using UniRx;
