@@ -7,7 +7,7 @@
 // Last Modified On : 04-01-2018
 // ***********************************************************************
 // <copyright file="UnityReference.cs" company="">
-//     Copyright (c) ただのごみ. Released under the MIT license.
+//     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************

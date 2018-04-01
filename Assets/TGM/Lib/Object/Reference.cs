@@ -4,10 +4,10 @@
 // Created          : 04-01-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-01-2018
+// Last Modified On : 04-02-2018
 // ***********************************************************************
 // <copyright file="Reference.cs" company="">
-//     Copyright (c) ただのごみ. Released under the MIT license.
+//     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
