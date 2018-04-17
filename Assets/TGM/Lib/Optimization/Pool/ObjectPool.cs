@@ -222,12 +222,15 @@ namespace TGM.Lib.Optimization.Pool
 		public virtual T Get(Action<T> advancedSettlingAfterCollectingAction = null)
 		{
 			// 利用可能なオブジェクトを探す
-			T usableObject = this.pooledObjectDictionary
-				.Where(pair => pair.Value)
-				.First()
-				.Key;
-			if (usableObject != null)
+			var usableObjects = this.pooledObjectDictionary
+				.Where(pair => pair.Value);
+
+			// 利用可能なオブジェクトが1つでもあったなら、それを使う
+			if (usableObjects.Any(_ => true))
 			{
+				T usableObject = usableObjects
+					.First()
+					.Key;
 				return this.PrepareObject(usableObject, advancedSettlingAfterCollectingAction);
 			}
 
