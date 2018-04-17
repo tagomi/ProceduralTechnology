@@ -78,7 +78,7 @@ namespace TGM.Lib.Optimization.Pool
 		public UnityObjectPool(int capacity, int initCount, ObjectPool<T>.CreateDelegate createDelegate, Predicate<T> collectingPredicate, Action<T> preparingToGetAction = null, Action<T> settlingAfterCollectingAction = null, Action<T> settlingAfterRemovingAction = null)
 		{
 			this.objectPool = new ObjectPool<Object.Reference<T>>(capacity, initCount,
-				this.ProcessCreateDalegate(createDelegate),
+				this.ProcessCreateDelegate(createDelegate),
 				UnityObjectPool<T>.ProcessPredicate(collectingPredicate, true),
 				UnityObjectPool<T>.ProcessAction(preparingToGetAction),
 				UnityObjectPool<T>.ProcessAction(settlingAfterCollectingAction),
@@ -169,7 +169,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="createDelegate">プールオブジェクトを作る処理(Unity.Object)</param>
 		/// <returns>プールオブジェクトを作る処理(Unity.Objectへの参照)</returns>
-		protected virtual ObjectPool<Object.Reference<T>>.CreateDelegate ProcessCreateDalegate(ObjectPool<T>.CreateDelegate createDelegate)
+		protected virtual ObjectPool<Object.Reference<T>>.CreateDelegate ProcessCreateDelegate(ObjectPool<T>.CreateDelegate createDelegate)
 		{
 			return () =>
 			{
