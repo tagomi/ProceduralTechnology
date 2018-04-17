@@ -18,7 +18,7 @@ namespace TGM.Lib.Object
 	/// インスタンスを参照するだけ
 	/// </summary>
 	/// <typeparam name="T">参照先の型</typeparam>
-	public class Reference<T> where T : class
+	public class Reference<T> : IReference where T : class
 	{
 		/// <summary>
 		/// 参照先
@@ -41,7 +41,14 @@ namespace TGM.Lib.Object
 		/// <returns><c>true</c>引数の<see cref="System.Object" />と同値。そうでなければ、<c>false</c></returns>
 		public override bool Equals(object obj)
 		{
-			return target.Equals(obj);
+			var reference = obj as IReference;
+			// 同じ参照なら、ターゲットを渡して向こうで判定してもらう
+			if (reference != null)
+			{
+				return reference.Equals(this.target);
+			}
+
+			return object.ReferenceEquals(this.target, obj);
 		}
 
 		/// <summary>
