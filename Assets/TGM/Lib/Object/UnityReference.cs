@@ -40,7 +40,7 @@ namespace TGM.Lib.Object
 		/// <returns>ハッシュコード。参照先が破棄済みであれば、-1を返す</returns>
 		public override int GetHashCode()
 		{
-			return this.HasAliveRef ? base.GetHashCode() : -1;
+			return this.HasAliveRef ? this.target.GetInstanceID() : -1;
 		}
 
 		/// <summary>
