@@ -93,12 +93,6 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="original">プレハブなどのオリジナル</param>
 		/// <returns>GameObjectのコピーを実体化するデリゲート</returns>
-		private static ObjectPool<GameObject>.CreateDelegate CreateInstantiateDelegate(GameObject original)
-		{
-			return () =>
-			{
-				return GameObject.Instantiate(original);
-			};
-		}
+		private static ObjectPool<GameObject>.CreateDelegate CreateInstantiateDelegate(GameObject original) => (() => GameObject.Instantiate(original));
 	}
 }
