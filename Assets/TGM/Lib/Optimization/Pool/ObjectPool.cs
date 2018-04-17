@@ -227,7 +227,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>プールされているオブジェクト</returns>
-		public virtual T Get(Action<T> advancedSettlingAfterCollectingAction)
+		public virtual T Get(Action<T> advancedSettlingAfterCollectingAction = null)
 		{
 			if (this.AvailableCount > 0)
 			{

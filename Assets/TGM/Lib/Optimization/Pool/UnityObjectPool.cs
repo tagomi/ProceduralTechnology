@@ -138,7 +138,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>プールされているオブジェクト</returns>
-		public T Get(Action<T> advancedSettlingAfterCollectingAction)
+		public T Get(Action<T> advancedSettlingAfterCollectingAction = null)
 		{
 			T obj = null;
 			while (obj == null)
