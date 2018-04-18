@@ -270,7 +270,6 @@ namespace TGM.Lib.Optimization.Pool
 			targetObject
 				.ObserveEveryValueChanged(_ => this.collectingPredicate(targetObject))
 				.Where(result => result)
-				.Skip(1)
 				.First()
 				.Subscribe(_ =>
 				{
