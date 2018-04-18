@@ -4,7 +4,7 @@
 // Created          : 04-17-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-17-2018
+// Last Modified On : 04-18-2018
 // ***********************************************************************
 // <copyright file="GameObjectPool.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
@@ -60,15 +60,13 @@ namespace TGM.Lib.Optimization.Pool
 		/// <summary>
 		/// コンストラクタ <see cref="GameObjectPool" /> class.
 		/// </summary>
-		/// <remarks>
-		/// プールへの回収条件はプールされているGameObjectがInactiveであること
-		/// </remarks>
 		/// <param name="capacity">プール可能数</param>
 		/// <param name="initCount">最初にプールするオブジェクト数</param>
 		/// <param name="createDelegate">プールオブジェクトを作る処理</param>
 		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
 		/// <param name="settlingAfterCollectingAction">オブジェクトの改修後に行う処理</param>
 		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
+		/// <remarks>プールへの回収条件はプールされているGameObjectがInactiveであること</remarks>
 		public GameObjectPool(int capacity, int initCount, ObjectPool<GameObject>.CreateDelegate createDelegate, Action<GameObject> preparingToGetAction = null, Action<GameObject> settlingAfterCollectingAction = null, Action<GameObject> settlingAfterRemovingAction = null) : base(capacity, initCount, createDelegate, GameObjectPool.IsInactiveDelegate, preparingToGetAction, settlingAfterCollectingAction, settlingAfterRemovingAction)
 		{
 		}
@@ -76,15 +74,13 @@ namespace TGM.Lib.Optimization.Pool
 		/// <summary>
 		/// コンストラクタ <see cref="GameObjectPool" /> class.
 		/// </summary>
-		/// <remarks>
-		/// プールへの回収条件はプールされているGameObjectがInactiveであること
-		/// </remarks>
 		/// <param name="capacity">プール可能数</param>
 		/// <param name="initCount">最初にプールするオブジェクト数</param>
 		/// <param name="original">The original.</param>
 		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
 		/// <param name="settlingAfterCollectingAction">オブジェクトの改修後に行う処理</param>
 		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
+		/// <remarks>プールへの回収条件はプールされているGameObjectがInactiveであること</remarks>
 		public GameObjectPool(int capacity, int initCount, GameObject original, Action<GameObject> preparingToGetAction = null, Action<GameObject> settlingAfterCollectingAction = null, Action<GameObject> settlingAfterRemovingAction = null) : base(capacity, initCount, GameObjectPool.CreateInstantiateDelegate(original), GameObjectPool.IsInactiveDelegate, GameObjectPool.CombineIntoSetActiveDelegate(preparingToGetAction), settlingAfterCollectingAction, settlingAfterRemovingAction)
 		{
 			/// @todo 取得前にSetActive(true)
