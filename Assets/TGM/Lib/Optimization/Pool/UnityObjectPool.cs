@@ -4,7 +4,7 @@
 // Created          : 04-01-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-01-2018
+// Last Modified On : 04-18-2018
 // ***********************************************************************
 // <copyright file="UnityObjectPool.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
@@ -30,7 +30,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// オブジェクトプール本体
 		/// </summary>
 		/// <seealso cref="TGM.Lib.Optimization.Pool.ObjectPool{System.Reference{T}}" />
-		protected readonly ObjectPool<Object.Reference<T>> objectPool;
+		protected readonly ObjectPool<Object.UnityReference<T>> objectPool;
 
 		/// <summary>
 		/// 取得可能なオブジェクト数
@@ -66,6 +66,11 @@ namespace TGM.Lib.Optimization.Pool
 		}
 
 		/// <summary>
+		/// プールオブジェクトを取得可能か
+		/// </summary>
+		public bool CanGet => this.objectPool.CanGet;
+
+		/// <summary>
 		/// コンストラクタ <see cref="UnityObjectPool{T}" /> class.
 		/// </summary>
 		/// <param name="capacity">プール可能数</param>
@@ -77,8 +82,8 @@ namespace TGM.Lib.Optimization.Pool
 		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
 		public UnityObjectPool(int capacity, int initCount, ObjectPool<T>.CreateDelegate createDelegate, Predicate<T> collectingPredicate, Action<T> preparingToGetAction = null, Action<T> settlingAfterCollectingAction = null, Action<T> settlingAfterRemovingAction = null)
 		{
-			this.objectPool = new ObjectPool<Object.Reference<T>>(capacity, initCount,
-				this.ProcessCreateDalegate(createDelegate),
+			this.objectPool = new ObjectPool<Object.UnityReference<T>>(capacity, initCount,
+				this.ProcessCreateDelegate(createDelegate),
 				UnityObjectPool<T>.ProcessPredicate(collectingPredicate, true),
 				UnityObjectPool<T>.ProcessAction(preparingToGetAction),
 				UnityObjectPool<T>.ProcessAction(settlingAfterCollectingAction),
@@ -90,7 +95,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="action">Objectを引数に取るAction</param>
 		/// <returns>Objectへの参照を引数に取るAction</returns>
-		protected static Action<Object.Reference<T>> ProcessAction(Action<T> action)
+		protected static Action<Object.UnityReference<T>> ProcessAction(Action<T> action)
 		{
 			return reference =>
 			{
@@ -109,7 +114,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// <param name="predicate">Objectを引数に取るPredicate</param>
 		/// <param name="returnTrueOnBrokenRef"><c>true</c>参照が切れた場合は<c>true</c>を返す</param>
 		/// <returns>Objectへの参照を引数に取るPredicate</returns>
-		protected static Predicate<Object.Reference<T>> ProcessPredicate(Predicate<T> predicate, bool returnTrueOnBrokenRef)
+		protected static Predicate<Object.UnityReference<T>> ProcessPredicate(Predicate<T> predicate, bool returnTrueOnBrokenRef)
 		{
 			return reference =>
 			{
@@ -138,7 +143,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>プールされているオブジェクト</returns>
-		public T Get(Action<T> advancedSettlingAfterCollectingAction)
+		public T Get(Action<T> advancedSettlingAfterCollectingAction = null)
 		{
 			T obj = null;
 			while (obj == null)
@@ -169,12 +174,12 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="createDelegate">プールオブジェクトを作る処理(Unity.Object)</param>
 		/// <returns>プールオブジェクトを作る処理(Unity.Objectへの参照)</returns>
-		protected virtual ObjectPool<Object.Reference<T>>.CreateDelegate ProcessCreateDalegate(ObjectPool<T>.CreateDelegate createDelegate)
+		protected virtual ObjectPool<Object.UnityReference<T>>.CreateDelegate ProcessCreateDelegate(ObjectPool<T>.CreateDelegate createDelegate)
 		{
 			return () =>
 			{
 				var createdObject = createDelegate();
-				var reference = new Object.Reference<T>(createdObject);
+				var reference = new Object.UnityReference<T>(createdObject);
 
 				// 監視中のUnity.ObjectがDestroy()された場合には監視から取り除く
 				reference
@@ -203,7 +208,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="reference">取り除くプールオブジェクトへの参照</param>
 		/// <remarks>取り除かれたオブジェクトは破棄されます</remarks>
-		protected virtual void RemoveObject(Object.Reference<T> reference)
+		protected virtual void RemoveObject(Object.UnityReference<T> reference)
 		{
 			var removedRef = this.objectPool.RemoveObject(reference);
 
@@ -221,7 +226,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// <remarks>取り除かれたオブジェクトは破棄されません</remarks>
 		public virtual T RemoveObject(T @object)
 		{
-			return this.objectPool.RemoveObject(new Object.Reference<T>(@object))?.target;
+			return this.objectPool.RemoveObject(new Object.UnityReference<T>(@object))?.target;
 		}
 
 		/// <summary>
@@ -235,27 +240,6 @@ namespace TGM.Lib.Optimization.Pool
 			{
 				UnityEngine.Object.Destroy(removedObject);
 			}
-		}
-	}
-
-	/// <summary>
-	/// ゲームオブジェクトプール
-	/// </summary>
-	/// <seealso cref="TGM.Lib.Optimization.Pool.UnityObjectPool{UnityEngine.GameObject}" />
-	public class GameObjectPool : UnityObjectPool<GameObject>
-	{
-		/// <summary>
-		/// コンストラクタ <see cref="GameObjectPool" /> class.
-		/// </summary>
-		/// <param name="capacity">プール可能数</param>
-		/// <param name="initCount">最初にプールするオブジェクト数</param>
-		/// <param name="createDelegate">プールオブジェクトを作る処理</param>
-		/// <param name="collectingPredicate">オブジェクトの回収条件</param>
-		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
-		/// <param name="settlingAfterCollectingAction">オブジェクトの改修後に行う処理</param>
-		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
-		public GameObjectPool(int capacity, int initCount, ObjectPool<GameObject>.CreateDelegate createDelegate, Predicate<GameObject> collectingPredicate, Action<GameObject> preparingToGetAction = null, Action<GameObject> settlingAfterCollectingAction = null, Action<GameObject> settlingAfterRemovingAction = null) : base(capacity, initCount, createDelegate, collectingPredicate, preparingToGetAction, settlingAfterCollectingAction, settlingAfterRemovingAction)
-		{
 		}
 	}
 }

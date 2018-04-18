@@ -35,22 +35,12 @@ namespace TGM.Lib.Object
 		public bool HasAliveRef => this.target != null;
 
 		/// <summary>
-		/// 引数の<see cref="System.Object" />がこのインスタンスと同値かを返す
-		/// </summary>
-		/// <param name="obj">このインスタンスと比較をする<see cref="T:System.Object" />のインスタンス</param>
-		/// <returns><c>true</c>引数の<see cref="System.Object" />と同値。そうでなければ、<c>false</c></returns>
-		public override bool Equals(object obj)
-		{
-			return this.HasAliveRef ? base.Equals(obj) : (obj == null);
-		}
-
-		/// <summary>
 		/// このインスタンスのハッシュコードを返す
 		/// </summary>
 		/// <returns>ハッシュコード。参照先が破棄済みであれば、-1を返す</returns>
 		public override int GetHashCode()
 		{
-			return this.HasAliveRef ? base.GetHashCode() : -1;
+			return this.HasAliveRef ? this.target.GetInstanceID() : -1;
 		}
 
 		/// <summary>

@@ -4,7 +4,7 @@
 // Created          : 04-01-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-01-2018
+// Last Modified On : 04-18-2018
 // ***********************************************************************
 // <copyright file="IPool.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
@@ -48,6 +48,14 @@ namespace TGM.Lib.Optimization.Pool
 			get;
 		}
 
+		/// <summary>
+		/// プールオブジェクトを取得可能か
+		/// </summary>
+		bool CanGet
+		{
+			get;
+		}
+
 		#endregion Properties
 
 		#region Methods
@@ -69,7 +77,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>プールされているオブジェクト</returns>
-		T Get(Action<T> advancedSettlingAfterCollectingAction);
+		T Get(Action<T> advancedSettlingAfterCollectingAction = null);
 
 		/// <summary>
 		/// プールオブジェクトを取り除く

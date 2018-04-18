@@ -4,7 +4,7 @@
 // Created          : 04-01-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-01-2018
+// Last Modified On : 04-18-2018
 // ***********************************************************************
 // <copyright file="ObjectPool.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
@@ -91,11 +91,12 @@ namespace TGM.Lib.Optimization.Pool
 		/// <summary>
 		/// 取得可能なオブジェクト数
 		/// </summary>
-		public int AvailableCount
-		{
-			get;
-			protected set;
-		}
+		public int AvailableCount => this.pooledObjectDictionary.Values.Count(flag => flag);
+
+		/// <summary>
+		/// プールオブジェクトを取得可能か
+		/// </summary>
+		public bool CanGet => (this.AvailableCount > 0) || (this.Capacity > this.Count);
 
 		#endregion Properties
 
@@ -124,10 +125,6 @@ namespace TGM.Lib.Optimization.Pool
 			this.SetCapacity(capacity);
 			// プールオブジェクトを用意
 			this.CreateObjects(initCount);
-			// 念の為、正確に利用可能なオブジェクト数を調べる
-			this.AvailableCount =
-				this.pooledObjectDictionary
-					.Count(pair => pair.Value);
 
 			Assert.IsNotNull(this.createDelegate);
 			Assert.IsNotNull(this.collectingPredicate);
@@ -227,17 +224,19 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		/// <param name="advancedSettlingAfterCollectingAction">追加の回収後処理</param>
 		/// <returns>プールされているオブジェクト</returns>
-		public virtual T Get(Action<T> advancedSettlingAfterCollectingAction)
+		public virtual T Get(Action<T> advancedSettlingAfterCollectingAction = null)
 		{
-			if (this.AvailableCount > 0)
+			// 利用可能なオブジェクトを探す
+			var usableObjects = this.pooledObjectDictionary
+				.Where(pair => pair.Value);
+
+			// 利用可能なオブジェクトが1つでもあったなら、それを使う
+			if (usableObjects.Any(_ => true))
 			{
-				// 利用可能なオブジェクトを探す
-				T @object = this.pooledObjectDictionary
-					.Where(pair => pair.Value)
+				T usableObject = usableObjects
 					.First()
 					.Key;
-
-				return this.PrepareObject(@object, advancedSettlingAfterCollectingAction);
+				return this.PrepareObject(usableObject, advancedSettlingAfterCollectingAction);
 			}
 
 			if (this.Count >= this.Capacity)
@@ -268,8 +267,6 @@ namespace TGM.Lib.Optimization.Pool
 
 			// 利用不能にする
 			this.pooledObjectDictionary[targetObject] = false;
-			// 利用可能数を減らす
-			this.AvailableCount = this.AvailableCount - 1;
 
 			// 準備処理
 			this.preparingToGetAction?.Invoke(targetObject);
@@ -283,8 +280,6 @@ namespace TGM.Lib.Optimization.Pool
 				{
 					// 利用可能に戻す
 					this.pooledObjectDictionary[targetObject] = true;
-					// 利用可能数を増やす
-					this.AvailableCount = this.AvailableCount + 1;
 
 					// 回収後処理
 					this.settlingAfterCollectingAction?.Invoke(targetObject);
@@ -302,7 +297,6 @@ namespace TGM.Lib.Optimization.Pool
 		protected void AddObject(T @object, bool canUse)
 		{
 			this.pooledObjectDictionary.Add(@object, canUse);
-			this.AvailableCount = this.AvailableCount + 1;
 		}
 
 		/// <summary>
@@ -313,7 +307,6 @@ namespace TGM.Lib.Optimization.Pool
 		public virtual T RemoveObject(T @object)
 		{
 			this.pooledObjectDictionary.Remove(@object);
-			this.AvailableCount = this.AvailableCount - 1;
 
 			// 取り除かれた後の処理
 			this.settlingAfterRemovingAction?.Invoke(@object);
