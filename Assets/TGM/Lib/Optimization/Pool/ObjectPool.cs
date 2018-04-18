@@ -96,7 +96,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// <summary>
 		/// プールオブジェクトを取得可能か
 		/// </summary>
-		public bool CanGet => this.Capacity > this.Count;
+		public bool CanGet => (this.AvailableCount > 0) || (this.Capacity > this.Count);
 
 		#endregion Properties
 
