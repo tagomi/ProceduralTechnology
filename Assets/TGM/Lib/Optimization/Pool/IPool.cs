@@ -4,7 +4,7 @@
 // Created          : 04-01-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-17-2018
+// Last Modified On : 04-18-2018
 // ***********************************************************************
 // <copyright file="IPool.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
@@ -44,6 +44,14 @@ namespace TGM.Lib.Optimization.Pool
 		/// 取得可能なオブジェクト数
 		/// </summary>
 		int AvailableCount
+		{
+			get;
+		}
+
+		/// <summary>
+		/// プールオブジェクトを取得可能か
+		/// </summary>
+		bool CanGet
 		{
 			get;
 		}

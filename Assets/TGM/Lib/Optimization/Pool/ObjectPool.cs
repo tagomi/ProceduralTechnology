@@ -93,6 +93,11 @@ namespace TGM.Lib.Optimization.Pool
 		/// </summary>
 		public int AvailableCount => this.pooledObjectDictionary.Values.Count(flag => flag);
 
+		/// <summary>
+		/// プールオブジェクトを取得可能か
+		/// </summary>
+		public bool CanGet => this.Capacity > this.Count;
+
 		#endregion Properties
 
 		#region Methods

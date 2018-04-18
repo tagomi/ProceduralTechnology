@@ -4,7 +4,7 @@
 // Created          : 04-01-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-17-2018
+// Last Modified On : 04-18-2018
 // ***********************************************************************
 // <copyright file="UnityObjectPool.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
@@ -64,6 +64,11 @@ namespace TGM.Lib.Optimization.Pool
 				return this.objectPool.Count;
 			}
 		}
+
+		/// <summary>
+		/// プールオブジェクトを取得可能か
+		/// </summary>
+		public bool CanGet => this.objectPool.CanGet;
 
 		/// <summary>
 		/// コンストラクタ <see cref="UnityObjectPool{T}" /> class.
