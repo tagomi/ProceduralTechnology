@@ -52,7 +52,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
 		/// <param name="settlingAfterCollectingAction">オブジェクトの改修後に行う処理</param>
 		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
-		public GameObjectPool(int capacity, int initCount, GameObject original, Predicate<GameObject> collectingPredicate, Action<GameObject> preparingToGetAction = null, Action<GameObject> settlingAfterCollectingAction = null, Action<GameObject> settlingAfterRemovingAction = null) : base(capacity, initCount, GameObjectPool.CreateInstantiateDelegate(original), collectingPredicate, preparingToGetAction, settlingAfterCollectingAction, settlingAfterRemovingAction)
+		public GameObjectPool(int capacity, int initCount, GameObject original, Predicate<GameObject> collectingPredicate, Action<GameObject> preparingToGetAction = null, Action<GameObject> settlingAfterCollectingAction = null, Action<GameObject> settlingAfterRemovingAction = null) : base(capacity, initCount, GameObjectPool.CreateInstantiateDelegate(original), collectingPredicate, GameObjectPool.CombineIntoSetActiveDelegate(preparingToGetAction), settlingAfterCollectingAction, settlingAfterRemovingAction)
 		{
 			/// @todo 取得前にSetActive(true)
 		}
@@ -85,7 +85,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// <param name="preparingToGetAction">プールされているオブジェクトを取得する前に行う処理</param>
 		/// <param name="settlingAfterCollectingAction">オブジェクトの改修後に行う処理</param>
 		/// <param name="settlingAfterRemovingAction">オブジェクトプールから取り除いた後に行う処理</param>
-		public GameObjectPool(int capacity, int initCount, GameObject original, Action<GameObject> preparingToGetAction = null, Action<GameObject> settlingAfterCollectingAction = null, Action<GameObject> settlingAfterRemovingAction = null) : base(capacity, initCount, GameObjectPool.CreateInstantiateDelegate(original), GameObjectPool.IsInactiveDelegate, preparingToGetAction, settlingAfterCollectingAction, settlingAfterRemovingAction)
+		public GameObjectPool(int capacity, int initCount, GameObject original, Action<GameObject> preparingToGetAction = null, Action<GameObject> settlingAfterCollectingAction = null, Action<GameObject> settlingAfterRemovingAction = null) : base(capacity, initCount, GameObjectPool.CreateInstantiateDelegate(original), GameObjectPool.IsInactiveDelegate, GameObjectPool.CombineIntoSetActiveDelegate(preparingToGetAction), settlingAfterCollectingAction, settlingAfterRemovingAction)
 		{
 			/// @todo 取得前にSetActive(true)
 		}
@@ -103,6 +103,21 @@ namespace TGM.Lib.Optimization.Pool
 				// プール中は見えると都合が悪いので、隠しておく
 				copy.SetActive(false);
 				return copy;
+			};
+		}
+
+		/// <summary>
+		/// GameObjectをActiveにするデリゲートに結合する
+		/// </summary>
+		/// <param name="action">結合したいデリゲート</param>
+		/// <returns>GameObjectをActiveにする処理も行うデリゲート</returns>
+		private static Action<GameObject> CombineIntoSetActiveDelegate(Action<GameObject> action)
+		{
+			return gameObject =>
+			{
+				gameObject?.SetActive(true);
+
+				action?.Invoke(gameObject);
 			};
 		}
 	}
