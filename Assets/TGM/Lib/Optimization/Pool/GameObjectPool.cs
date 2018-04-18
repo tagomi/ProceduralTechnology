@@ -26,7 +26,7 @@ namespace TGM.Lib.Optimization.Pool
 		/// <summary>
 		/// GameObjectがInactiveかを判定するデリゲート
 		/// </summary>
-		private static readonly Predicate<GameObject> IsInactiveDelegate = (gameObject => gameObject.activeSelf);
+		private static readonly Predicate<GameObject> IsInactiveDelegate = (gameObject => !gameObject.activeSelf);
 
 		/// <summary>
 		/// コンストラクタ <see cref="GameObjectPool" /> class.
