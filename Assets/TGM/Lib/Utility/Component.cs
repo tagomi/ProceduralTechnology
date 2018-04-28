@@ -13,7 +13,7 @@
 // ***********************************************************************
 using UnityEngine;
 
-namespace TGM.Utility
+namespace TGM.Lib.Utility
 {
 	/// <summary>
 	/// コンポーネントのユーティリティクラス
