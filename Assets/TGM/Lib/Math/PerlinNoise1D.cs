@@ -64,24 +64,10 @@ namespace TGM.Lib.Math
 			float fx = x % 1;
 			int ix = (int)x;
 
-			float wave = PerlinNoise1D.Wavelet(fx, this.amplitude * PerlinNoise1D.GetSmallRandom(unchecked(this.seed + ix)));
-			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, this.amplitude * PerlinNoise1D.GetSmallRandom(unchecked(this.seed + ix + 1)));
+			float wave = PerlinNoise1D.Wavelet(fx, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix)));
+			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix + 1)));
 
 			return wave + nextWave;
-		}
-
-		/// <summary>
-		/// [-1, 1)の疑似乱数値を返す
-		/// </summary>
-		/// <remarks>シード値が同じ値であれば、必ず同じ値を返す</remarks>
-		/// <param name="seed">シード値</param>
-		/// <returns> [-1, 1)の疑似乱数値</returns>
-		private static float GetSmallRandom(int seed)
-		{
-			// 同じ値であれば、同じ結果になるように毎回作り直す
-			var randomGenerator = new System.Random(seed);
-
-			return ((float)randomGenerator.NextDouble() - 0.5f) * 2f;
 		}
 
 		/// <summary>
