@@ -17,9 +17,9 @@ using UnityEngine;
 namespace TGM.Lib.Math
 {
 	/// <summary>
-	/// パーリンノイズを生成する
+	/// １次元パーリンノイズを生成する
 	/// </summary>
-	public class PerlinNoise
+	public class PerlinNoise1D
 	{
 		/// <summary>
 		/// シード値
@@ -33,21 +33,21 @@ namespace TGM.Lib.Math
 		private readonly float amplitude;
 
 		/// <summary>
-		/// コンストラクタ <see cref="PerlinNoise" /> class.
+		/// コンストラクタ <see cref="PerlinNoise1D" /> class.
 		/// </summary>
 		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
 		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise(float amplitude) : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue), amplitude)
+		public PerlinNoise1D(float amplitude) : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue), amplitude)
 		{
 		}
 
 		/// <summary>
-		/// コンストラクタ <see cref="PerlinNoise" /> class.
+		/// コンストラクタ <see cref="PerlinNoise1D" /> class.
 		/// </summary>
 		/// <param name="seed">シード値</param>
 		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
 		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise(int seed, float amplitude)
+		public PerlinNoise1D(int seed, float amplitude)
 		{
 			this.seed = seed;
 			this.amplitude = amplitude;
@@ -58,14 +58,14 @@ namespace TGM.Lib.Math
 		/// </summary>
 		/// <param name="x">x座標</param>
 		/// <returns>波形の高さ</returns>
-		public float PerlinNoise1D(float x)
+		public float Noise(float x)
 		{
 			// 整数部分と小数部分に分ける
 			float fx = x % 1;
 			int ix = (int)x;
 
-			float wave = PerlinNoise.Wavelet(fx, this.amplitude * PerlinNoise.GetSmallRandom(this.seed + ix));
-			float nextWave = PerlinNoise.Wavelet(fx - 1f, this.amplitude * PerlinNoise.GetSmallRandom(this.seed + ix + 1));
+			float wave = PerlinNoise1D.Wavelet(fx, this.amplitude * PerlinNoise1D.GetSmallRandom(this.seed + ix));
+			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, this.amplitude * PerlinNoise1D.GetSmallRandom(this.seed + ix + 1));
 
 			return wave + nextWave;
 		}

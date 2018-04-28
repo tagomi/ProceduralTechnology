@@ -14,14 +14,14 @@ public class PerlinNoise1DTest : MonoBehaviour
 	// Use this for initialization
 	private void Start()
 	{
-		var perlin = new TGM.Lib.Math.PerlinNoise(this.seed, this.amplitude);
+		var perlin = new TGM.Lib.Math.PerlinNoise1D(this.seed, this.amplitude);
 		var line = this.GetOrAddComponent<LineRenderer>();
 		line.positionCount = this.maxStep;
 
 		for (int i = 0; i < this.maxStep; i++)
 		{
 			float x = this.accuracy * (float)i;
-			float value = perlin.PerlinNoise1D(x);
+			float value = perlin.Noise(x);
 
 			line.SetPosition(i, new Vector3(x * this.width, 0f, value));
 		}
