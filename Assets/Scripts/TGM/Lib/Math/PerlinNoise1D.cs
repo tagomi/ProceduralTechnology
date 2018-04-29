@@ -71,7 +71,7 @@ namespace TGM.Lib.Math
 			float wave = PerlinNoise1D.Wavelet(fx, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix)));
 			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix + 1)));
 
-			return wave + nextWave;
+			return (wave + nextWave) / 2f;
 		}
 
 		/// <summary>
