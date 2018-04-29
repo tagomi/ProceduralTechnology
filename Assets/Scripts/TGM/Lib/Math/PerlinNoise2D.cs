@@ -68,17 +68,17 @@ namespace TGM.Lib.Math
 
 			// 擬似乱数勾配ベクトルの傾き
 			UnityEngine.Random.InitState(unchecked(ix * this.xOffset + iy * this.yOffset));
-			float ax0y0x = UnityEngine.Random.Range(-1f, 1f);
-			float ax0y0y = UnityEngine.Random.Range(-1f, 1f);
+			float ax0y0x = UnityEngine.Random.Range(-2f, 2f);
+			float ax0y0y = UnityEngine.Random.Range(-2f, 2f);
 			UnityEngine.Random.InitState(unchecked((ix + 1) * this.xOffset + iy * this.yOffset));
-			float ax1y0x = UnityEngine.Random.Range(-1f, 1f);
-			float ax1y0y = UnityEngine.Random.Range(-1f, 1f);
+			float ax1y0x = UnityEngine.Random.Range(-2f, 2f);
+			float ax1y0y = UnityEngine.Random.Range(-2f, 2f);
 			UnityEngine.Random.InitState(unchecked(ix * this.xOffset + (iy + 1) * this.yOffset));
-			float ax0y1x = UnityEngine.Random.Range(-1f, 1f);
-			float ax0y1y = UnityEngine.Random.Range(-1f, 1f);
+			float ax0y1x = UnityEngine.Random.Range(-2f, 2f);
+			float ax0y1y = UnityEngine.Random.Range(-2f, 2f);
 			UnityEngine.Random.InitState(unchecked((ix + 1) * this.xOffset + (iy + 1) * this.yOffset));
-			float ax1y1x = UnityEngine.Random.Range(-1f, 1f);
-			float ax1y1y = UnityEngine.Random.Range(-1f, 1f);
+			float ax1y1x = UnityEngine.Random.Range(-2f, 2f);
+			float ax1y1y = UnityEngine.Random.Range(-2f, 2f);
 
 			// ウェーブレット関数を計算する
 			float x0y0Wave = PerlinNoise2D.Wavelet(fx, fy, ax0y0x, ax0y0y);
