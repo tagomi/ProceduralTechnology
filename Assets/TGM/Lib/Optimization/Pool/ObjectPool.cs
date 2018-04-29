@@ -211,7 +211,7 @@ namespace TGM.Lib.Optimization.Pool
 		protected virtual void CreateObjects(int count)
 		{
 			int remainingCapacity = this.Capacity - this.Count;
-			int createCount = Math.Min(count, remainingCapacity);
+			int createCount = Mathf.Min(count, remainingCapacity);
 
 			for (int i = 0; i < count; i++)
 			{
