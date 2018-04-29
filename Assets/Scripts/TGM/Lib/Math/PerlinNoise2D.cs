@@ -34,8 +34,7 @@ namespace TGM.Lib.Math
 		/// <summary>
 		/// コンストラクタ <see cref="PerlinNoise2D" /> class.
 		/// </summary>
-		/// <param name="quality">乱数の品質</param>
-		public PerlinNoise2D(int quality = 256) : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue), quality)
+		public PerlinNoise2D() : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue))
 		{
 		}
 
@@ -44,21 +43,13 @@ namespace TGM.Lib.Math
 		/// </summary>
 		/// <param name="seed">シード値
 		/// この値が大きければ大きな波になる</param>
-		/// <param name="quality">乱数の品質</param>
-		public PerlinNoise2D(int seed, int quality = 256)
+		public PerlinNoise2D(int seed)
 		{
 			this.seed = seed;
 
 			UnityEngine.Random.InitState(this.seed);
-			this.yOffset = UnityEngine.Random.Range(0, quality);
-			this.xOffset = UnityEngine.Random.Range(0, quality);
-			this.randomValues = new int[quality];
-			for (int i = 0; i < quality; i++)
-			{
-				this.randomValues[i] = UnityEngine.Random.Range(0, quality);
-			}
-
-			Assert.IsTrue(quality > 0, "品質は0以下にできません");
+			this.xOffset = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+			this.yOffset = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
 		}
 
 		/// <summary>
@@ -69,12 +60,6 @@ namespace TGM.Lib.Math
 		/// <returns>波形の高さ</returns>
 		public float Noise(float x, float y)
 		{
-			if (this.randomValues.Length <= 0)
-			{
-				Debug.LogWarning("品質が0以下のため、乱数を取得できません");
-				return 0;
-			}
-
 			// 整数部分と小数部分に分ける
 			float fx = x % 1;
 			float fy = y % 1;
@@ -82,15 +67,18 @@ namespace TGM.Lib.Math
 			int iy = (int)y;
 
 			// 擬似乱数勾配ベクトルの傾き
-			int length = this.randomValues.Length;
-			float ax0y0x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.xOffset) % length] + iy) % length]);
-			float ax1y0x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.xOffset) % length] + iy) % length]);
-			float ax0y1x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.xOffset) % length] + iy + 1) % length]);
-			float ax1y1x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.xOffset) % length] + iy + 1) % length]);
-			float ax0y0y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.yOffset) % length] + iy) % length]);
-			float ax1y0y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.yOffset) % length] + iy) % length]);
-			float ax0y1y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.yOffset) % length] + iy + 1) % length]);
-			float ax1y1y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.yOffset) % length] + iy + 1) % length]);
+			UnityEngine.Random.InitState(unchecked(ix * this.xOffset + iy * this.yOffset));
+			float ax0y0x = UnityEngine.Random.Range(-1f, 1f);
+			float ax0y0y = UnityEngine.Random.Range(-1f, 1f);
+			UnityEngine.Random.InitState(unchecked((ix + 1) * this.xOffset + iy * this.yOffset));
+			float ax1y0x = UnityEngine.Random.Range(-1f, 1f);
+			float ax1y0y = UnityEngine.Random.Range(-1f, 1f);
+			UnityEngine.Random.InitState(unchecked(ix * this.xOffset + (iy + 1) * this.yOffset));
+			float ax0y1x = UnityEngine.Random.Range(-1f, 1f);
+			float ax0y1y = UnityEngine.Random.Range(-1f, 1f);
+			UnityEngine.Random.InitState(unchecked((ix + 1) * this.xOffset + (iy + 1) * this.yOffset));
+			float ax1y1x = UnityEngine.Random.Range(-1f, 1f);
+			float ax1y1y = UnityEngine.Random.Range(-1f, 1f);
 
 			// ウェーブレット関数を計算する
 			float x0y0Wave = PerlinNoise2D.Wavelet(fx, fy, ax0y0x, ax0y0y);
