@@ -82,7 +82,7 @@ namespace TGM.Lib.Math
 
 			// ウェーブレット関数を計算する
 			float x0y0Wave = PerlinNoise2D.Wavelet(fx, fy, ax0y0x, ax0y0y);
-			float x1y0Wave = PerlinNoise2D.Wavelet(fx - 1f, fy, ax1y0x, ax0y1y);
+			float x1y0Wave = PerlinNoise2D.Wavelet(fx - 1f, fy, ax1y0x, ax1y0y);
 			float x0y1Wave = PerlinNoise2D.Wavelet(fx, fy - 1f, ax0y1x, ax0y1y);
 			float x1y1Wave = PerlinNoise2D.Wavelet(fx - 1f, fy - 1f, ax1y1x, ax1y1y);
 
