@@ -4,15 +4,16 @@
 // Created          : 04-28-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-28-2018
+// Last Modified On : 04-29-2018
 // ***********************************************************************
-// <copyright file="PerlinNoise.cs" company="">
+// <copyright file="PerlinNoiseID.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace TGM.Lib.Math
 {
@@ -27,17 +28,9 @@ namespace TGM.Lib.Math
 		private readonly int seed;
 
 		/// <summary>
-		/// ウェーブレット関数の原点での傾きの最大値
-		/// この値が大きければ大きな波になる
-		/// </summary>
-		private readonly float amplitude;
-
-		/// <summary>
 		/// コンストラクタ <see cref="PerlinNoise1D" /> class.
 		/// </summary>
-		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
-		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise1D(float amplitude) : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue), amplitude)
+		public PerlinNoise1D() : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue))
 		{
 		}
 
@@ -45,12 +38,10 @@ namespace TGM.Lib.Math
 		/// コンストラクタ <see cref="PerlinNoise1D" /> class.
 		/// </summary>
 		/// <param name="seed">シード値</param>
-		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
 		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise1D(int seed, float amplitude)
+		public PerlinNoise1D(int seed)
 		{
 			this.seed = seed;
-			this.amplitude = amplitude;
 		}
 
 		/// <summary>
@@ -64,10 +55,10 @@ namespace TGM.Lib.Math
 			float fx = x % 1;
 			int ix = (int)x;
 
-			float wave = PerlinNoise1D.Wavelet(fx, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix)));
-			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix + 1)));
+			float wave = PerlinNoise1D.Wavelet(fx, Random.GetSmallRandom(unchecked(this.seed + ix)));
+			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, Random.GetSmallRandom(unchecked(this.seed + ix + 1)));
 
-			return wave + nextWave;
+			return Mathf.Lerp(wave, nextWave, fx);
 		}
 
 		/// <summary>
@@ -86,8 +77,14 @@ namespace TGM.Lib.Math
 		/// ・原点で符号反転すると左右で線対称な波形になる</remarks>
 		private static float Wavelet(float t, float a)
 		{
-			// C(t) = 1-3t^2+2|t|^3
-			float c = 1f - 3f * Mathf.Pow(t, 2) + 2f * Mathf.Pow(Mathf.Abs(t), 3);
+			if (a == 0f)
+			{
+				Debug.LogWarning("原点での傾きが0ではウェーブレット関数の定義を満たせません");
+				return 0f;
+			}
+
+			// C(t) = 1 - (6|t^5| - 15t^4 + 10|t^3|)
+			float c = 1f - (6f * Mathf.Abs(Mathf.Pow(t, 5)) - 15f * Mathf.Pow(t, 4) + 10f * Mathf.Abs(Mathf.Pow(t, 3)));
 			// L(t) = at
 			float l = a * t;
 
