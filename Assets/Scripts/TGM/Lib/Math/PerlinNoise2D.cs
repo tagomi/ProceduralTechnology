@@ -91,7 +91,10 @@ namespace TGM.Lib.Math
 			float y1Wave = Mathf.Lerp(x0y1Wave, x1y1Wave, fx);
 
 			// 次にy軸方向で線形補間する
-			return Mathf.Lerp(y0Wave, y1Wave, fy);
+			float noise = Mathf.Lerp(y0Wave, y1Wave, fy);
+
+			// [0, 1]になるように直す
+			return noise + 0.5f;
 		}
 
 		/// <summary>
