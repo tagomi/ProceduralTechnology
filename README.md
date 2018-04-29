@@ -13,5 +13,5 @@ Released under the MIT license
 https://github.com/neuecc/UniRx/blob/master/LICENSE  
 
 ### ライセンス
-上記の物を除いた自作のファイルはMITライセンスで公開しています  
+上記の物を除いた自作のファイル(**Assets/ThirdParty**以下以外)はMITライセンスで公開しています  
 詳しくは**LISENCE**を御覧ください
