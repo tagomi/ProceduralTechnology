@@ -28,17 +28,9 @@ namespace TGM.Lib.Math
 		private readonly int seed;
 
 		/// <summary>
-		/// ウェーブレット関数の原点での傾きの最大値
-		/// この値が大きければ大きな波になる
-		/// </summary>
-		private readonly float amplitude;
-
-		/// <summary>
 		/// コンストラクタ <see cref="PerlinNoise1D" /> class.
 		/// </summary>
-		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
-		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise1D(float amplitude) : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue), amplitude)
+		public PerlinNoise1D() : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue))
 		{
 		}
 
@@ -46,15 +38,10 @@ namespace TGM.Lib.Math
 		/// コンストラクタ <see cref="PerlinNoise1D" /> class.
 		/// </summary>
 		/// <param name="seed">シード値</param>
-		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
 		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise1D(int seed, float amplitude)
+		public PerlinNoise1D(int seed)
 		{
 			this.seed = seed;
-			this.amplitude = amplitude;
-
-			// 完全に0はまずい
-			Assert.IsFalse(Mathf.Approximately(this.amplitude, 0f), "傾きの最大値が0の場合、ウェーブレット関数の定義を満たせません");
 		}
 
 		/// <summary>
@@ -68,8 +55,8 @@ namespace TGM.Lib.Math
 			float fx = x % 1;
 			int ix = (int)x;
 
-			float wave = PerlinNoise1D.Wavelet(fx, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix)));
-			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix + 1)));
+			float wave = PerlinNoise1D.Wavelet(fx, Random.GetSmallRandom(unchecked(this.seed + ix)));
+			float nextWave = PerlinNoise1D.Wavelet(fx - 1f, Random.GetSmallRandom(unchecked(this.seed + ix + 1)));
 
 			return Mathf.Lerp(wave, nextWave, fx);
 		}

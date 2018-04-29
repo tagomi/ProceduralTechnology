@@ -52,14 +52,14 @@ namespace Test
 		/// </summary>
 		private void Start()
 		{
-			var noiseMaker = new TGM.Lib.Math.PerlinNoise2D(this.seed, this.amplitude);
+			var noiseMaker = new TGM.Lib.Math.PerlinNoise2D(this.seed);
 
 			for (int i = 0; i < this.yWidth; i++)
 			{
 				for (int j = 0; j < this.xWidth; j++)
 				{
 					var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-					cube.transform.position = new Vector3(j, noiseMaker.Noise((float)j / this.wavePeriod, (float)i / this.wavePeriod), i);
+					cube.transform.position = new Vector3(j, noiseMaker.Noise((float)j / this.wavePeriod, (float)i / this.wavePeriod) * this.amplitude, i);
 				}
 			}
 		}

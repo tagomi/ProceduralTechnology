@@ -15,12 +15,6 @@ namespace TGM.Lib.Math
 		private readonly int seed;
 
 		/// <summary>
-		/// ウェーブレット関数の原点での傾きの最大値
-		/// この値が大きければ大きな波になる
-		/// </summary>
-		private readonly float amplitude;
-
-		/// <summary>
 		/// x座標のこのクラス内でのズレ
 		/// </summary>
 		/// <remarks>x座標とy座標が同じ値だとウェーブレット関数の戻り値が同じになってしまうので、対策</remarks>
@@ -35,9 +29,7 @@ namespace TGM.Lib.Math
 		/// <summary>
 		/// コンストラクタ <see cref="PerlinNoise2D" /> class.
 		/// </summary>
-		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
-		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise2D(float amplitude) : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue), amplitude)
+		public PerlinNoise2D() : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue))
 		{
 		}
 
@@ -45,18 +37,13 @@ namespace TGM.Lib.Math
 		/// コンストラクタ <see cref="PerlinNoise2D" /> class.
 		/// </summary>
 		/// <param name="seed">シード値</param>
-		/// <param name="amplitude">ウェーブレット関数の原点での傾きの最大値
 		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise2D(int seed, float amplitude)
+		public PerlinNoise2D(int seed)
 		{
 			this.seed = seed;
-			this.amplitude = amplitude;
 			var randomGenerator = new System.Random(this.seed);
 			this.yOffset = randomGenerator.Next();
 			this.xOffset = randomGenerator.Next();
-
-			// 完全に0はまずい
-			Assert.IsFalse(Mathf.Approximately(this.amplitude, 0f), "傾きの最大値が0の場合、ウェーブレット関数の定義を満たせません");
 		}
 
 		/// <summary>
@@ -74,10 +61,10 @@ namespace TGM.Lib.Math
 			int iy = unchecked((int)y + this.yOffset);
 
 			// 擬似乱数勾配ベクトルの傾き
-			float ax0 = this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix));
-			float ax1 = this.amplitude * Random.GetSmallRandom(unchecked(this.seed + ix + 1));
-			float ay0 = this.amplitude * Random.GetSmallRandom(unchecked(this.seed + iy));
-			float ay1 = this.amplitude * Random.GetSmallRandom(unchecked(this.seed + iy + 1));
+			float ax0 = Random.GetSmallRandom(unchecked(this.seed + ix));
+			float ax1 = Random.GetSmallRandom(unchecked(this.seed + ix + 1));
+			float ay0 = Random.GetSmallRandom(unchecked(this.seed + iy));
+			float ay1 = Random.GetSmallRandom(unchecked(this.seed + iy + 1));
 
 			// ウェーブレット関数を計算する
 			float x0y0Wave = PerlinNoise2D.Wavelet(fx, fy, ax0, ay0);
