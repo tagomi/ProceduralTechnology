@@ -83,8 +83,8 @@ namespace TGM.Lib.Math
 				return 0f;
 			}
 
-			// C(t) = 1-3t^2+2|t|^3
-			float c = 1f - 3f * Mathf.Pow(t, 2) + 2f * Mathf.Pow(Mathf.Abs(t), 3);
+			// C(t) = 1 - (6|t^5| - 15t^4 + 10|t^3|)
+			float c = 1f - (6f * Mathf.Abs(Mathf.Pow(t, 5)) - 15f * Mathf.Pow(t, 4) + 10f * Mathf.Abs(Mathf.Pow(t, 3)));
 			// L(t) = at
 			float l = a * t;
 
