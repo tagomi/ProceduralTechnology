@@ -29,6 +29,13 @@ namespace TGM.Lib.Math
 			// 同じ値であれば、同じ結果になるように毎回作り直す
 			var randomGenerator = new System.Random(seed);
 
+			// シード値が近いと近い値が出やすいので、適当な回数捨てる
+			int discardNum = randomGenerator.Next() % 10;
+			for (int i = 0; i < discardNum; i++)
+			{
+				randomGenerator.NextDouble();
+			}
+
 			return ((float)randomGenerator.NextDouble() - 0.5f) * 2f;
 		}
 	}
