@@ -21,6 +21,12 @@ namespace TGM.Lib.Math
 		private readonly float amplitude;
 
 		/// <summary>
+		/// x座標のこのクラス内でのズレ
+		/// </summary>
+		/// <remarks>x座標とy座標が同じ値だとウェーブレット関数の戻り値が同じになってしまうので、対策</remarks>
+		private readonly int xOffset;
+
+		/// <summary>
 		/// y座標のこのクラス内でのズレ
 		/// </summary>
 		/// <remarks>x座標とy座標が同じ値だとウェーブレット関数の戻り値が同じになってしまうので、対策</remarks>
@@ -47,6 +53,7 @@ namespace TGM.Lib.Math
 			this.amplitude = amplitude;
 			var randomGenerator = new System.Random(this.seed);
 			this.yOffset = randomGenerator.Next();
+			this.xOffset = randomGenerator.Next();
 
 			// 完全に0はまずい
 			Assert.IsFalse(Mathf.Approximately(this.amplitude, 0f), "傾きの最大値が0の場合、ウェーブレット関数の定義を満たせません");
@@ -63,7 +70,7 @@ namespace TGM.Lib.Math
 			// 整数部分と小数部分に分ける
 			float fx = x % 1;
 			float fy = y % 1;
-			int ix = (int)x;
+			int ix = unchecked((int)x + this.xOffset);
 			int iy = unchecked((int)y + this.yOffset);
 
 			// 擬似乱数勾配ベクトルの傾き
