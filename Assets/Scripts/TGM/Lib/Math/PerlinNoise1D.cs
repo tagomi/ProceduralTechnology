@@ -4,9 +4,9 @@
 // Created          : 04-28-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-28-2018
+// Last Modified On : 04-29-2018
 // ***********************************************************************
-// <copyright file="PerlinNoise.cs" company="">
+// <copyright file="PerlinNoiseID.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
