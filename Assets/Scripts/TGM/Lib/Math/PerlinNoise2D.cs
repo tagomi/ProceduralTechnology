@@ -132,9 +132,9 @@ namespace TGM.Lib.Math
 			}
 
 			// C(x, y) = C_x(x)C_y(y)
-			// C(t) = 1-3t^2+2|t|^3
-			float cx = 1f - 3f * Mathf.Pow(x, 2) + 2f * Mathf.Pow(Mathf.Abs(x), 3);
-			float cy = 1f - 3f * Mathf.Pow(y, 2) + 2f * Mathf.Pow(Mathf.Abs(y), 3);
+			// C(t) = 1 - (6|t^5| - 15t^4 + 10|t^3|)
+			float cx = 1f - (6f * Mathf.Abs(Mathf.Pow(x, 5)) - 15f * Mathf.Pow(x, 4) + 10f * Mathf.Abs(Mathf.Pow(x, 3)));
+			float cy = 1f - (6f * Mathf.Abs(Mathf.Pow(y, 5)) - 15f * Mathf.Pow(y, 4) + 10f * Mathf.Abs(Mathf.Pow(y, 3)));
 			float c = cx * cy;
 			// L(x, y) = a_x*x + a_y*y
 			// L(t) = at
