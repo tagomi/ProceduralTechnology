@@ -54,7 +54,7 @@ namespace TGM.Lib.Math
 			this.amplitude = amplitude;
 
 			// 完全に0はまずい
-			Assert.AreNotEqual(this.amplitude, 0f, "傾きの最大値が0の場合、ウェーブレット関数の定義を満たせません");
+			Assert.IsFalse(Mathf.Approximately(this.amplitude, 0f), "傾きの最大値が0の場合、ウェーブレット関数の定義を満たせません");
 		}
 
 		/// <summary>
