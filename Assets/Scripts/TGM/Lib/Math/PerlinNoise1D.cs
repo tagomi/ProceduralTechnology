@@ -13,6 +13,7 @@
 // ***********************************************************************
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace TGM.Lib.Math
 {
@@ -51,6 +52,9 @@ namespace TGM.Lib.Math
 		{
 			this.seed = seed;
 			this.amplitude = amplitude;
+
+			// 完全に0はまずい
+			Assert.AreNotEqual(this.amplitude, 0f, "傾きの最大値が0の場合、ウェーブレット関数の定義を満たせません");
 		}
 
 		/// <summary>
@@ -86,6 +90,12 @@ namespace TGM.Lib.Math
 		/// ・原点で符号反転すると左右で線対称な波形になる</remarks>
 		private static float Wavelet(float t, float a)
 		{
+			if (a == 0f)
+			{
+				Debug.LogWarning("原点での傾きが0ではウェーブレット関数の定義を満たせません");
+				return 0f;
+			}
+
 			// C(t) = 1-3t^2+2|t|^3
 			float c = 1f - 3f * Mathf.Pow(t, 2) + 2f * Mathf.Pow(Mathf.Abs(t), 3);
 			// L(t) = at
