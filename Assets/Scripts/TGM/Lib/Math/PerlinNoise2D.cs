@@ -27,23 +27,38 @@ namespace TGM.Lib.Math
 		private readonly int yOffset;
 
 		/// <summary>
+		/// 0以上配列サイズ未満の乱数が収められている
+		/// </summary>
+		private readonly int[] randomValues;
+
+		/// <summary>
 		/// コンストラクタ <see cref="PerlinNoise2D" /> class.
 		/// </summary>
-		public PerlinNoise2D() : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue))
+		/// <param name="quality">乱数の品質</param>
+		public PerlinNoise2D(int quality = 256) : this(UnityEngine.Random.Range(int.MinValue, int.MaxValue), quality)
 		{
 		}
 
 		/// <summary>
 		/// コンストラクタ <see cref="PerlinNoise2D" /> class.
 		/// </summary>
-		/// <param name="seed">シード値</param>
+		/// <param name="seed">シード値
 		/// この値が大きければ大きな波になる</param>
-		public PerlinNoise2D(int seed)
+		/// <param name="quality">乱数の品質</param>
+		public PerlinNoise2D(int seed, int quality = 256)
 		{
 			this.seed = seed;
-			var randomGenerator = new System.Random(this.seed);
-			this.yOffset = randomGenerator.Next();
-			this.xOffset = randomGenerator.Next();
+
+			UnityEngine.Random.InitState(this.seed);
+			this.yOffset = UnityEngine.Random.Range(0, quality);
+			this.xOffset = UnityEngine.Random.Range(0, quality);
+			this.randomValues = new int[quality];
+			for (int i = 0; i < quality; i++)
+			{
+				this.randomValues[i] = UnityEngine.Random.Range(0, quality);
+			}
+
+			Assert.IsTrue(quality > 0, "品質は0以下にできません");
 		}
 
 		/// <summary>
@@ -54,23 +69,34 @@ namespace TGM.Lib.Math
 		/// <returns>波形の高さ</returns>
 		public float Noise(float x, float y)
 		{
+			if (this.randomValues.Length <= 0)
+			{
+				Debug.LogWarning("品質が0以下のため、乱数を取得できません");
+				return 0;
+			}
+
 			// 整数部分と小数部分に分ける
 			float fx = x % 1;
 			float fy = y % 1;
-			int ix = unchecked((int)x + this.xOffset);
-			int iy = unchecked((int)y + this.yOffset);
+			int ix = (int)x;
+			int iy = (int)y;
 
 			// 擬似乱数勾配ベクトルの傾き
-			float ax0 = Random.GetSmallRandom(unchecked(this.seed + ix));
-			float ax1 = Random.GetSmallRandom(unchecked(this.seed + ix + 1));
-			float ay0 = Random.GetSmallRandom(unchecked(this.seed + iy));
-			float ay1 = Random.GetSmallRandom(unchecked(this.seed + iy + 1));
+			int length = this.randomValues.Length;
+			float ax0y0x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.xOffset) % length] + iy) % length]);
+			float ax1y0x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.xOffset) % length] + iy) % length]);
+			float ax0y1x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.xOffset) % length] + iy + 1) % length]);
+			float ax1y1x = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.xOffset) % length] + iy + 1) % length]);
+			float ax0y0y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.yOffset) % length] + iy) % length]);
+			float ax1y0y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.yOffset) % length] + iy) % length]);
+			float ax0y1y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix) % length] + this.yOffset) % length] + iy + 1) % length]);
+			float ax1y1y = Random.GetSmallRandom(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(this.randomValues[Mathf.Abs(ix + 1) % length] + this.yOffset) % length] + iy + 1) % length]);
 
 			// ウェーブレット関数を計算する
-			float x0y0Wave = PerlinNoise2D.Wavelet(fx, fy, ax0, ay0);
-			float x1y0Wave = PerlinNoise2D.Wavelet(fx - 1f, fy, ax1, ay0);
-			float x0y1Wave = PerlinNoise2D.Wavelet(fx, fy - 1f, ax0, ay1);
-			float x1y1Wave = PerlinNoise2D.Wavelet(fx - 1f, fy - 1f, ax1, ay1);
+			float x0y0Wave = PerlinNoise2D.Wavelet(fx, fy, ax0y0x, ax0y0y);
+			float x1y0Wave = PerlinNoise2D.Wavelet(fx - 1f, fy, ax1y0x, ax0y1y);
+			float x0y1Wave = PerlinNoise2D.Wavelet(fx, fy - 1f, ax0y1x, ax0y1y);
+			float x1y1Wave = PerlinNoise2D.Wavelet(fx - 1f, fy - 1f, ax1y1x, ax1y1y);
 
 			// まずx軸方向で線形補間する
 			float y0Wave = Mathf.Lerp(x0y0Wave, x1y0Wave, fx);
