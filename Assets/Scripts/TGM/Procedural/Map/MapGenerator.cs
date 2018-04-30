@@ -169,7 +169,7 @@ namespace TGM.Procedural.Map
 				for (int x = 0, jEnd = peeks.GetLength(1); x < jEnd; x++)
 				{
 					// パーリンノイズの結果を四捨五入してから頂点の座標とする
-					peeks[z, x] += (int)Mathf.Round(noiseGenerator.Noise((chunkWorldPos.x + x) / wavePeriod, (chunkWorldPos.z + z) / wavePeriod) * amplitude);
+					peeks[z, x] += Mathf.RoundToInt(noiseGenerator.Noise((chunkWorldPos.x + x) / wavePeriod, (chunkWorldPos.z + z) / wavePeriod) * amplitude);
 				}
 			}
 		}
