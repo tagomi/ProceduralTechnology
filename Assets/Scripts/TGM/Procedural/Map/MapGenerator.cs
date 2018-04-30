@@ -16,6 +16,7 @@ using TGM.Lib.Math;
 using TGM.Lib.Vector;
 using TGM.Procedural.Entity.Block;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace TGM.Procedural.Map
 {
@@ -35,11 +36,11 @@ namespace TGM.Procedural.Map
 		private readonly float wavePeriod;
 
 		/// <summary>
-		/// 波の大きさの1オクターブ毎の減少率
+		/// 波の大きさの1オクターブ毎の変化率
 		/// </summary>
 		private readonly float amplitudeDecreasingRate;
 		/// <summary>
-		/// 波の周期の1オクターブ毎の減少率
+		/// 波の周期の1オクターブ毎の変化率
 		/// </summary>
 		private readonly float wavePeriodDecreasingRate;
 
@@ -58,8 +59,8 @@ namespace TGM.Procedural.Map
 		/// </summary>
 		/// <param name="amplitude">波の大きさ</param>
 		/// <param name="wavePeriod">波の周期</param>
-		/// <param name="amplitudeDecreasingRate">波の大きさの1オクターブ毎の減少率</param>
-		/// <param name="wavePeriodDecreasingRate">波の周期の1オクターブ毎の減少率</param>
+		/// <param name="amplitudeDecreasingRate">波の大きさの1オクターブ毎の変化率</param>
+		/// <param name="wavePeriodDecreasingRate">波の周期の1オクターブ毎の変化率</param>
 		/// <param name="octaves">ノイズを何回重ねるか</param>
 		/// <param name="seed">シード値</param>
 		public MapGenerator(float amplitude, float wavePeriod, float amplitudeDecreasingRate, float wavePeriodDecreasingRate, int octaves, int seed)
@@ -123,19 +124,48 @@ namespace TGM.Procedural.Map
 		/// <returns>1チャンク分の頂点座標</returns>
 		private int[,] CreateChunkPeeks(IntVector3 chunkWorldPos)
 		{
-			// 地形の頂点
+			// 地形の頂点(初期値は0)
 			var peeks = new int[Chunk.ZSize, Chunk.XSize];
 
+			// 初期値
+			float amplitude = this.amplitude;
+			float wavePeriod = this.wavePeriod;
+
+			// 波の大きさの合計値
+			float amplitudeSum = amplitude;
+			// 非整数ブラウン運動
+			for (int i = 0; i < this.octaves; i++)
+			{
+				this.MovePeeks(peeks, chunkWorldPos, amplitude, wavePeriod);
+
+				amplitude *= this.amplitudeDecreasingRate;
+				wavePeriod *= this.wavePeriodDecreasingRate;
+
+				amplitudeSum += amplitude;
+			}
+			// ノイズを重ねた事で増加した分だけ高さを下げる
+			float ampitudeRate = amplitudeSum / this.amplitude;
+			for (int i = 0, iEnd = peeks.GetLength(0); i < iEnd; i++)
+			{
+				for (int j = 0, jEnd = peeks.GetLength(1); j < jEnd; j++)
+				{
+					peeks[i, j] = Mathf.RoundToInt((float)peeks[i, j] / ampitudeRate);
+				}
+			}
+
+			return peeks;
+		}
+
+		private void MovePeeks(int[,] peeks, IntVector3 chunkWorldPos, float amplitude, float wavePeriod)
+		{
 			for (int z = 0, iEnd = peeks.GetLength(0); z < iEnd; z++)
 			{
 				for (int x = 0, jEnd = peeks.GetLength(1); x < jEnd; x++)
 				{
 					// パーリンノイズの結果を四捨五入してから頂点の座標とする
-					peeks[z, x] = (int)Mathf.Round(this.noiseGenerator.Noise((chunkWorldPos.x + x) / this.wavePeriod, (chunkWorldPos.z + z) / this.wavePeriod) * this.amplitude);
+					peeks[z, x] += (int)Mathf.Round(noiseGenerator.Noise((chunkWorldPos.x + x) / wavePeriod, (chunkWorldPos.z + z) / wavePeriod) * amplitude);
 				}
 			}
-
-			return peeks;
 		}
 	}
 }
