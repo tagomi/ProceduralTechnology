@@ -34,6 +34,21 @@ public class MapTest : MonoBehaviour
 	/// The wave period
 	/// </summary>
 	public float wavePeriod;
+
+	/// <summary>
+	/// 波の大きさの1オクターブ毎の減少率
+	/// </summary>
+	public float amplitudeDecreasingRate;
+	/// <summary>
+	/// 波の周期の1オクターブ毎の減少率
+	/// </summary>
+	public float wavePeriodDecreasingRate;
+
+	/// <summary>
+	/// ノイズを何回重ねるか
+	/// </summary>
+	public int octaves;
+
 	/// <summary>
 	/// The seed
 	/// </summary>
@@ -46,7 +61,7 @@ public class MapTest : MonoBehaviour
 	private void Start()
 	{
 		this.map = this.gameObject.AddComponent<MapBehaviour>();
-		this.map.Initialize(new MapGenerator(this.amplitude, this.wavePeriod, this.seed));
+		this.map.Initialize(new MapGenerator(this.amplitude, this.wavePeriod, this.amplitudeDecreasingRate, this.wavePeriodDecreasingRate, this.octaves, this.seed));
 
 		for (int z = 0; z < 4; z++)
 		{

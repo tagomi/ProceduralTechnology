@@ -35,6 +35,20 @@ namespace TGM.Procedural.Map
 		private readonly float wavePeriod;
 
 		/// <summary>
+		/// 波の大きさの1オクターブ毎の減少率
+		/// </summary>
+		private readonly float amplitudeDecreasingRate;
+		/// <summary>
+		/// 波の周期の1オクターブ毎の減少率
+		/// </summary>
+		private readonly float wavePeriodDecreasingRate;
+
+		/// <summary>
+		/// ノイズを何回重ねるか
+		/// </summary>
+		private readonly int octaves;
+
+		/// <summary>
 		/// ノイズ生成機
 		/// </summary>
 		private readonly PerlinNoise2D noiseGenerator;
@@ -44,11 +58,17 @@ namespace TGM.Procedural.Map
 		/// </summary>
 		/// <param name="amplitude">波の大きさ</param>
 		/// <param name="wavePeriod">波の周期</param>
+		/// <param name="amplitudeDecreasingRate">波の大きさの1オクターブ毎の減少率</param>
+		/// <param name="wavePeriodDecreasingRate">波の周期の1オクターブ毎の減少率</param>
+		/// <param name="octaves">ノイズを何回重ねるか</param>
 		/// <param name="seed">シード値</param>
-		public MapGenerator(float amplitude, float wavePeriod, int seed)
+		public MapGenerator(float amplitude, float wavePeriod, float amplitudeDecreasingRate, float wavePeriodDecreasingRate, int octaves, int seed)
 		{
 			this.amplitude = amplitude;
 			this.wavePeriod = wavePeriod;
+			this.amplitudeDecreasingRate = amplitudeDecreasingRate;
+			this.wavePeriodDecreasingRate = wavePeriodDecreasingRate;
+			this.octaves = octaves;
 			this.noiseGenerator = new PerlinNoise2D(seed);
 		}
 
