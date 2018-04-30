@@ -30,11 +30,11 @@ namespace TGM.Procedural.Map
 		/// <summary>
 		/// Y軸方向のブロック数
 		/// </summary>
-		public const int YSize = 16;
+		public const int YSize = 256;
 		/// <summary>
 		/// Z軸方向のブロック数
 		/// </summary>
-		public const int ZSize = 256;
+		public const int ZSize = 16;
 
 		/// <summary>
 		/// マップを構成するブロック
