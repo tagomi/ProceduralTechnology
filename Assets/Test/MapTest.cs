@@ -54,6 +54,16 @@ public class MapTest : MonoBehaviour
 	/// </summary>
 	public int seed;
 
+	/// <summary>
+	/// The x size
+	/// </summary>
+	public int xSize;
+
+	/// <summary>
+	/// The z size
+	/// </summary>
+	public int zSize;
+
 	// Use this for initialization
 	/// <summary>
 	/// Starts this instance.
@@ -63,9 +73,9 @@ public class MapTest : MonoBehaviour
 		this.map = this.gameObject.AddComponent<MapBehaviour>();
 		this.map.Initialize(new MapGenerator(this.amplitude, this.wavePeriod, this.amplitudeDecreasingRate, this.wavePeriodDecreasingRate, this.octaves, this.seed));
 
-		for (int z = 0; z < 4; z++)
+		for (int z = 0; z < this.zSize; z++)
 		{
-			for (int x = 0; x < 4; x++)
+			for (int x = 0; x < this.xSize; x++)
 			{
 				this.map.CreateChunk(new TGM.Lib.Vector.IntVector3(x, 0, z));
 			}
