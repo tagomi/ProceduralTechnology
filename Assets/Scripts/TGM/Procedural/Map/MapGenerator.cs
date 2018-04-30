@@ -162,6 +162,14 @@ namespace TGM.Procedural.Map
 			return peeks;
 		}
 
+		/// <summary>
+		/// 頂点座標を動かす
+		/// </summary>
+		/// <remarks>ノイズを重ねる</remarks>
+		/// <param name="peeks">頂点座標</param>
+		/// <param name="chunkWorldPos">チャンク座標のワールド座標</param>
+		/// <param name="amplitude">波の大きさ</param>
+		/// <param name="wavePeriod">波の周期</param>
 		private void MovePeeks(int[,] peeks, IntVector3 chunkWorldPos, float amplitude, float wavePeriod)
 		{
 			for (int z = 0, iEnd = peeks.GetLength(0); z < iEnd; z++)
