@@ -12,6 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 
+using TGM.Lib.Utility;
 using UnityEngine;
 
 namespace TGM.Procedural.Entity.Block
@@ -39,6 +40,14 @@ namespace TGM.Procedural.Entity.Block
 		public void Renew(BlockAttribute attribute)
 		{
 			this.attribute = attribute;
+
+			if (!BlockSingletonBehaviour.Exists())
+			{
+				Debug.LogError("ブロック管理のインスタンスがありません");
+				return;
+			}
+			var renderer = this.GetOrAddComponent<Renderer>();
+			renderer.material = BlockSingletonBehaviour.Instance.GetBlockMaterial(this.attribute.type);
 		}
 	}
 }
