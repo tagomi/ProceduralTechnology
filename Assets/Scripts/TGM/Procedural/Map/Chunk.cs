@@ -20,7 +20,7 @@ namespace TGM.Procedural.Map
 	/// <summary>
 	/// 1チャックを表す
 	/// </summary>
-	public class Chunk
+	public sealed class Chunk
 	{
 		/// <summary>
 		/// X軸方向のブロック数
