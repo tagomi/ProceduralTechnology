@@ -41,6 +41,9 @@ namespace TGM.Procedural.Map
 		/// </summary>
 		private BlockBehaviour[,,] blocks;
 
+		/// <summary>
+		/// チャンク座標
+		/// </summary>
 		public IntVector3 ChunkPos
 		{
 			get;
