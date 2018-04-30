@@ -71,6 +71,12 @@ namespace TGM.Procedural.Map
 			this.wavePeriodDecreasingRate = wavePeriodDecreasingRate;
 			this.octaves = octaves;
 			this.noiseGenerator = new PerlinNoise2D(seed);
+
+			Assert.IsTrue(this.amplitude > 0, $"波の大きさは0以下にできません");
+			Assert.IsTrue(this.wavePeriod > 0, $"波の周期は0以下にできません");
+			Assert.IsTrue((0 < this.amplitudeDecreasingRate) && (this.amplitudeDecreasingRate <= 1f), $"波の大きさの変化率は(0, 1]でなければなりません");
+			Assert.IsTrue((0 < this.wavePeriodDecreasingRate) && (this.wavePeriodDecreasingRate <= 1f), $"波の周期の変化率は(0, 1]でなければなりません");
+			Assert.IsTrue(this.octaves > 0, $"ノイズを重ねる回数は0以下にできません");
 		}
 
 		/// <summary>
