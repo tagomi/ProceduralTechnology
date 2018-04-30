@@ -82,6 +82,30 @@ namespace TGM.Procedural.Map
 						{
 							continue;
 						}
+						// 見えないブロックは作らない
+						/// @todo 応急処理なので後で直す
+						if ((z != 0) && (z != zEnd - 1) && (y != 0) && (y != yEnd - 1) && (x != 0) && (x != xEnd - 1))
+						{
+							bool willShow = false;
+							for (int i = z - 1; (i <= z + 1) && !willShow; i++)
+							{
+								for (int j = y - 1; (j <= y + 1) && !willShow; j++)
+								{
+									for (int k = x - 1; (k <= x + 1) && !willShow; k++)
+									{
+										if (attributes[i, j, k].type == BlockTypes.Empty)
+										{
+											willShow = true;
+										}
+									}
+								}
+							}
+
+							if (!willShow)
+							{
+								continue;
+							}
+						}
 
 						var block = blockSingleton.GetBlock(attributes[z, y, x]);
 						block.transform.position = new Vector3(chunkWorldPos.x + x, chunkWorldPos.y + y, chunkWorldPos.z + z);
