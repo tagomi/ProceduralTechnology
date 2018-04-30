@@ -49,13 +49,13 @@ namespace TGM.Procedural.Map
 		/// <summary>
 		/// マップを構成するブロック
 		/// </summary>
-		private GameObject[,,] blocks;
+		private BlockBehaviour[,,] blocks;
 
 		/// <summary>
 		/// チャックを作り直す
 		/// </summary>
 		/// <param name="blocks">新しいチャンクを構成するブロック</param>
-		public void Renew(GameObject[,,] blocks)
+		public void Renew(BlockBehaviour[,,] blocks)
 		{
 			if ((blocks.GetLength(0) != Chunk.ZSize) || (blocks.GetLength(1) != Chunk.YSize) || (blocks.GetLength(2) != Chunk.XSize))
 			{
@@ -86,7 +86,7 @@ namespace TGM.Procedural.Map
 				if (block != null)
 				{
 					// ブールされている事が前提の処理
-					block.SetActive(false);
+					block.gameObject.SetActive(false);
 				}
 			}
 		}
