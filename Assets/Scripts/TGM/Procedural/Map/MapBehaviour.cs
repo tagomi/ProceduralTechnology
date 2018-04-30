@@ -30,7 +30,7 @@ namespace TGM.Procedural.Map
 		private readonly Dictionary<IntVector3, Chunk> chunkDic = new Dictionary<IntVector3, Chunk>();
 
 		/// <summary>
-		/// The map generator
+		/// マップ生成機
 		/// </summary>
 		private MapGenerator mapGenerator;
 
