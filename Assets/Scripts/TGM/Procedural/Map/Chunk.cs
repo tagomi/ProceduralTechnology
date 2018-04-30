@@ -143,6 +143,12 @@ namespace TGM.Procedural.Map
 		/// </summary>
 		private void Clear()
 		{
+			// クリアするものなし
+			if (this.blocks == null)
+			{
+				return;
+			}
+
 			foreach (var block in this.blocks)
 			{
 				if (block != null)
