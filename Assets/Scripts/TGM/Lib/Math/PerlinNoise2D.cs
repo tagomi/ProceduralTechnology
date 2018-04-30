@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : Assembly-CSharp
+// Author           : ただのごみ
+// Created          : 04-29-2018
+//
+// Last Modified By : ただのごみ
+// Last Modified On : 04-30-2018
+// ***********************************************************************
+// <copyright file="PerlinNoise2D.cs" company="">
+//     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -17,13 +30,11 @@ namespace TGM.Lib.Math
 		/// <summary>
 		/// x座標のこのクラス内でのズレ
 		/// </summary>
-		/// <remarks>x座標とy座標が同じ値だとウェーブレット関数の戻り値が同じになってしまうので、対策</remarks>
 		private readonly int xOffset;
 
 		/// <summary>
 		/// y座標のこのクラス内でのズレ
 		/// </summary>
-		/// <remarks>x座標とy座標が同じ値だとウェーブレット関数の戻り値が同じになってしまうので、対策</remarks>
 		private readonly int yOffset;
 
 		/// <summary>
@@ -102,10 +113,8 @@ namespace TGM.Lib.Math
 		/// </summary>
 		/// <param name="x">単位正方形内のx座標</param>
 		/// <param name="y">単位正方形内のy座標</param>
-		/// <param name="ax">x軸の原点での傾き
-		/// この値が大きければ、高い波形になる</param>
-		/// <param name="ay">y軸の原点での傾き
-		/// この値が大きければ、高い波形になる</</param>
+		/// <param name="ax">x軸の原点での傾き。この値が大きければ、高い波形になる</param>
+		/// <param name="ay">y軸の原点での傾き。この値が大きければ、高い波形になる</param>
 		/// <returns>高さ</returns>
 		/// <remarks>ウェーブレット関数の作る波形の定義
 		/// ・原点の高さは0
