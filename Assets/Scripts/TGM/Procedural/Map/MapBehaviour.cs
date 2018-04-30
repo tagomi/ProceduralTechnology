@@ -35,11 +35,26 @@ namespace TGM.Procedural.Map
 		private MapGenerator mapGenerator;
 
 		/// <summary>
+		/// 初期化
+		/// </summary>
+		/// <param name="mapGenerator">マップ生成機</param>
+		public void Initialize(MapGenerator mapGenerator)
+		{
+			this.mapGenerator = mapGenerator;
+		}
+
+		/// <summary>
 		/// チャンク生成
 		/// </summary>
 		/// <param name="chunkPos">チャンク座標</param>
 		public void CreateChunk(IntVector3 chunkPos)
 		{
+			if (this.mapGenerator == null)
+			{
+				Debug.LogError("マップ生成機が設定されていません");
+				return;
+			}
+
 			// 1チャンク分の属性を決める
 			var attributes = this.mapGenerator.CreateChunkBlockAttributes(chunkPos);
 			// チャンク座標のワールド座標
