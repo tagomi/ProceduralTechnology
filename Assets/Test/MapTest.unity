@@ -242,9 +242,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 148fe95fd1ef7a3419bb26490418cfd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitude: 20
-  wavePeriod: 10
-  seed: 100
+  amplitude: 50
+  wavePeriod: 20
+  amplitudeDecreasingRate: 0.75
+  wavePeriodDecreasingRate: 0.75
+  octaves: 5
+  seed: 777
+  xSize: 5
+  zSize: 5
 --- !u!4 &1493674750
 Transform:
   m_ObjectHideFlags: 0
