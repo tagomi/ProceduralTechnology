@@ -14,7 +14,7 @@
 
 using System;
 
-namespace TGM.Procedural.Map
+namespace TGM.Procedural.Entity.Block
 {
 	/// <summary>
 	/// ブロックの状態

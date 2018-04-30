@@ -6,39 +6,34 @@
 // Last Modified By : ただのごみ
 // Last Modified On : 04-30-2018
 // ***********************************************************************
-// <copyright file="BlockBehaviour.cs" company="">
+// <copyright file="BlockTypes.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
 
-using UnityEngine;
-
-namespace TGM.Procedural.Map
+namespace TGM.Procedural.Entity.Block
 {
 	/// <summary>
-	/// ブロック
+	/// ブロックの種類
 	/// </summary>
-	/// <seealso cref="UnityEngine.MonoBehaviour" />
-	public class BlockBehaviour : MonoBehaviour
+	public enum BlockTypes
 	{
 		/// <summary>
-		/// ブロックの属性
+		/// 空の空間
 		/// </summary>
-		protected BlockAttribute attribute;
-
+		Empty,
 		/// <summary>
-		/// ブロックの状態
+		/// 土
 		/// </summary>
-		protected BlockStatus status = new BlockStatus();
-
+		Dirt,
 		/// <summary>
-		/// 作り直す
+		/// 石
 		/// </summary>
-		/// <param name="attribute">属性</param>
-		public void Renew(BlockAttribute attribute)
-		{
-			this.attribute = attribute;
-		}
+		Stone,
+		/// <summary>
+		/// 草
+		/// </summary>
+		Grass,
 	}
 }

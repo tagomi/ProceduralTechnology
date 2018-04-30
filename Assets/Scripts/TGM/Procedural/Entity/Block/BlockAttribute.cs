@@ -6,34 +6,33 @@
 // Last Modified By : ただのごみ
 // Last Modified On : 04-30-2018
 // ***********************************************************************
-// <copyright file="BlockTypes.cs" company="">
+// <copyright file="BlockAttribute.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using System;
 
-namespace TGM.Procedural.Map
+namespace TGM.Procedural.Entity.Block
 {
 	/// <summary>
-	/// ブロックの種類
+	/// ブロックの属性
 	/// </summary>
-	public enum BlockTypes
+	[Serializable]
+	public class BlockAttribute
 	{
 		/// <summary>
-		/// 空の空間
+		/// ブロックの種類
 		/// </summary>
-		Empty,
+		public readonly BlockTypes type;
+
 		/// <summary>
-		/// 土
+		/// コンストラクタ <see cref="BlockAttribute" /> class.
 		/// </summary>
-		Dirt,
-		/// <summary>
-		/// 石
-		/// </summary>
-		Stone,
-		/// <summary>
-		/// 草
-		/// </summary>
-		Grass,
+		/// <param name="type">ブロックの種類</param>
+		public BlockAttribute(BlockTypes type)
+		{
+			this.type = type;
+		}
 	}
 }

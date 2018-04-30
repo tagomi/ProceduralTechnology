@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using TGM.Procedural.Entity.Block;
 using UnityEngine;
 
 namespace TGM.Procedural.Map

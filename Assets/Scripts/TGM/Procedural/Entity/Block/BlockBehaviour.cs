@@ -6,33 +6,39 @@
 // Last Modified By : ただのごみ
 // Last Modified On : 04-30-2018
 // ***********************************************************************
-// <copyright file="BlockAttribute.cs" company="">
+// <copyright file="BlockBehaviour.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-using System;
 
-namespace TGM.Procedural.Map
+using UnityEngine;
+
+namespace TGM.Procedural.Entity.Block
 {
 	/// <summary>
-	/// ブロックの属性
+	/// ブロック
 	/// </summary>
-	[Serializable]
-	public class BlockAttribute
+	/// <seealso cref="UnityEngine.MonoBehaviour" />
+	public class BlockBehaviour : MonoBehaviour
 	{
 		/// <summary>
-		/// ブロックの種類
+		/// ブロックの属性
 		/// </summary>
-		public readonly BlockTypes type;
+		protected BlockAttribute attribute;
 
 		/// <summary>
-		/// コンストラクタ <see cref="BlockAttribute" /> class.
+		/// ブロックの状態
 		/// </summary>
-		/// <param name="type">ブロックの種類</param>
-		public BlockAttribute(BlockTypes type)
+		protected BlockStatus status = new BlockStatus();
+
+		/// <summary>
+		/// 作り直す
+		/// </summary>
+		/// <param name="attribute">属性</param>
+		public void Renew(BlockAttribute attribute)
 		{
-			this.type = type;
+			this.attribute = attribute;
 		}
 	}
 }
