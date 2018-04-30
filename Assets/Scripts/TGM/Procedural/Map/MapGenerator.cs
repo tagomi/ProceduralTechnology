@@ -138,16 +138,16 @@ namespace TGM.Procedural.Map
 			float wavePeriod = this.wavePeriod;
 
 			// 波の大きさの合計値
-			float amplitudeSum = amplitude;
+			float amplitudeSum = 0;
 			// 非整数ブラウン運動
 			for (int i = 0; i < this.octaves; i++)
 			{
+				amplitudeSum += amplitude;
+
 				this.MovePeeks(peeks, chunkWorldPos, amplitude, wavePeriod);
 
 				amplitude *= this.amplitudeDecreasingRate;
 				wavePeriod *= this.wavePeriodDecreasingRate;
-
-				amplitudeSum += amplitude;
 			}
 			// ノイズを重ねた事で増加した分だけ高さを下げる
 			float ampitudeRate = amplitudeSum / this.amplitude;
