@@ -17,7 +17,7 @@ namespace TGM.Procedural.Entity.Block
 	/// <summary>
 	/// ブロックの種類
 	/// </summary>
-	public enum BlockTypes
+	public enum BlockTypes : int
 	{
 		/// <summary>
 		/// 空の空間
