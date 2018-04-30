@@ -47,10 +47,11 @@ namespace TGM.Procedural.Map
 		}
 
 		/// <summary>
-		/// 1チャンク分のブロックを収める配列を作って返す
+		/// 1チャンク分のブロックを収められるサイズの配列を作って返す
 		/// </summary>
-		/// <returns>1チャンク分のブロックを収める配列</returns>
-		public static BlockBehaviour[,,] CreateChunkBlockArray() => new BlockBehaviour[Chunk.ZSize, Chunk.YSize, Chunk.XSize];
+		/// <typeparam name="T">配列の型</typeparam>
+		/// <returns>1チャンク分のブロックを収められるサイズの配列を作って返す/returns>
+		public static T[,,] CreateChunkBlockArray<T>() => new T[Chunk.ZSize, Chunk.YSize, Chunk.XSize];
 
 		/// <summary>
 		/// チャックを作り直す
