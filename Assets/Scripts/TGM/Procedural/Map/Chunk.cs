@@ -49,7 +49,7 @@ namespace TGM.Procedural.Map
 		/// <summary>
 		/// マップを構成するブロック
 		/// </summary>
-		private GameObject[,,] blocks = new GameObject[Chunk.ZSize, Chunk.YSize, Chunk.XSize];
+		private GameObject[,,] blocks;
 
 		/// <summary>
 		/// チャックを作り直す
