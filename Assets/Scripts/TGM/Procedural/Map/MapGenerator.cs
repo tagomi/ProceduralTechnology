@@ -4,7 +4,7 @@
 // Created          : 04-30-2018
 //
 // Last Modified By : ただのごみ
-// Last Modified On : 04-30-2018
+// Last Modified On : 05-01-2018
 // ***********************************************************************
 // <copyright file="MapGenerator.cs" company="">
 //     Copyright (c) ただのごみ. Please read LICENSE file. If it is nothing, all rights reserved.
@@ -150,18 +150,26 @@ namespace TGM.Procedural.Map
 				wavePeriod *= this.wavePeriodDecreasingRate;
 			}
 			// ノイズを重ねた事で増加した分だけ高さを下げる
-			float ampitudeRate = amplitudeSum / this.amplitude;
+			float amplitudeRate = amplitudeSum / this.amplitude;
 			for (int i = 0, iEnd = peeks.GetLength(0); i < iEnd; i++)
 			{
 				for (int j = 0, jEnd = peeks.GetLength(1); j < jEnd; j++)
 				{
-					peeks[i, j] = Mathf.RoundToInt((float)peeks[i, j] / ampitudeRate);
+					peeks[i, j] = Mathf.RoundToInt((float)peeks[i, j] / amplitudeRate);
 				}
 			}
 
 			return peeks;
 		}
 
+		/// <summary>
+		/// 頂点座標を動かす
+		/// </summary>
+		/// <remarks>ノイズを重ねる</remarks>
+		/// <param name="peeks">頂点座標</param>
+		/// <param name="chunkWorldPos">チャンク座標のワールド座標</param>
+		/// <param name="amplitude">波の大きさ</param>
+		/// <param name="wavePeriod">波の周期</param>
 		private void MovePeeks(int[,] peeks, IntVector3 chunkWorldPos, float amplitude, float wavePeriod)
 		{
 			for (int z = 0, iEnd = peeks.GetLength(0); z < iEnd; z++)
