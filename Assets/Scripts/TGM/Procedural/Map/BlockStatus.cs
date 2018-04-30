@@ -19,7 +19,6 @@ namespace TGM.Procedural.Map
 	/// <summary>
 	/// ブロックの状態
 	/// </summary>
-	[Serializable]
 	public class BlockStatus
 	{
 		/// <summary>
