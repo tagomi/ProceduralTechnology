@@ -62,6 +62,12 @@ namespace TGM.Procedural.Map
 				{
 					for (int x = 0, xEnd = attributes.GetLength(2); x < xEnd; x++)
 					{
+						// 空のブロックなら飛ばす
+						if (attributes[z, y, x].type == BlockTypes.Empty)
+						{
+							continue;
+						}
+
 						var block = blockSingleton.GetBlock(attributes[z, y, x]);
 						block.transform.position = new Vector3(chunkWorldPos.x + x, chunkWorldPos.y + y, chunkWorldPos.z + z);
 
