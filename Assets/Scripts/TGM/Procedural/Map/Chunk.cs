@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using System;
 using TGM.Lib.Vector;
 using TGM.Procedural.Entity.Block;
 using UnityEngine;
@@ -50,8 +51,55 @@ namespace TGM.Procedural.Map
 		/// 1チャンク分のブロックを収められるサイズの配列を作って返す
 		/// </summary>
 		/// <typeparam name="T">配列の型</typeparam>
-		/// <returns>1チャンク分のブロックを収められるサイズの配列を作って返す/returns>
-		public static T[,,] CreateChunkBlockArray<T>() => new T[Chunk.ZSize, Chunk.YSize, Chunk.XSize];
+		/// <param name="defaultValue">配列の初期値</param>
+		/// <returns>1チャンク分のブロックを収められるサイズの配列</returns>
+		public static T[,,] CreateChunkBlockArray<T>(T defaultValue = default(T))
+		{
+			var array = new T[Chunk.ZSize, Chunk.YSize, Chunk.XSize];
+
+			for (int i = 0; i < Chunk.ZSize; i++)
+			{
+				for (int j = 0; j < Chunk.YSize; j++)
+				{
+					for (int k = 0; k < Chunk.XSize; k++)
+					{
+						array[i, j, k] = defaultValue;
+					}
+				}
+			}
+
+			return array;
+		}
+
+		/// <summary>
+		/// 1チャンク分のブロックを収められるサイズの配列を作って返す
+		/// </summary>
+		/// <typeparam name="T">配列の型</typeparam>
+		/// <param name="generator">初期値を生成するデリゲート</param>
+		/// <returns>1チャンク分のブロックを収められるサイズの配列</returns>
+		public static T[,,] CreateChunkBlockArray<T>(Func<T> generator)
+		{
+			var array = new T[Chunk.ZSize, Chunk.YSize, Chunk.XSize];
+
+			if (generator == null)
+			{
+				Debug.LogError("初期値を生成するためのデリゲートがnullでした");
+				return array;
+			}
+
+			for (int i = 0; i < Chunk.ZSize; i++)
+			{
+				for (int j = 0; j < Chunk.YSize; j++)
+				{
+					for (int k = 0; k < Chunk.XSize; k++)
+					{
+						array[i, j, k] = generator();
+					}
+				}
+			}
+
+			return array;
+		}
 
 		/// <summary>
 		/// チャックを作り直す
