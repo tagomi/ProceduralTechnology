@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using TGM.Lib.Vector;
 using TGM.Procedural.Entity.Block;
 using UnityEngine;
 
@@ -35,28 +36,22 @@ namespace TGM.Procedural.Map
 		public const int ZSize = 256;
 
 		/// <summary>
-		/// チャンクX座標
-		/// </summary>
-		private int x;
-		/// <summary>
-		/// チャンクY座標
-		/// </summary>
-		private int y;
-		/// <summary>
-		/// チャンクZ座標
-		/// </summary>
-		private int z;
-
-		/// <summary>
 		/// マップを構成するブロック
 		/// </summary>
 		private BlockBehaviour[,,] blocks;
+
+		public IntVector3 ChunkPos
+		{
+			get;
+			private set;
+		}
 
 		/// <summary>
 		/// チャックを作り直す
 		/// </summary>
 		/// <param name="blocks">新しいチャンクを構成するブロック</param>
-		public void Renew(BlockBehaviour[,,] blocks)
+		/// <param name="chunkPos">チャンク座標</param>
+		public void Renew(BlockBehaviour[,,] blocks, IntVector3 chunkPos)
 		{
 			if ((blocks.GetLength(0) != Chunk.ZSize) || (blocks.GetLength(1) != Chunk.YSize) || (blocks.GetLength(2) != Chunk.XSize))
 			{
@@ -67,6 +62,7 @@ namespace TGM.Procedural.Map
 			this.Clear();
 
 			this.blocks = blocks;
+			this.ChunkPos = chunkPos;
 		}
 
 		/// <summary>
