@@ -102,6 +102,13 @@ namespace TGM.Procedural.Map
 		}
 
 		/// <summary>
+		/// チャンク座標をワールド座標に変換する
+		/// </summary>
+		/// <param name="chunkPos">チャンク座標</param>
+		/// <returns>ワールド座標</returns>
+		public static IntVector3 ConvertChunkPosToWorldPos(IntVector3 chunkPos) => new IntVector3(chunkPos.x * Chunk.XSize, chunkPos.y * Chunk.YSize, chunkPos.z * Chunk.ZSize);
+
+		/// <summary>
 		/// チャックを作り直す
 		/// </summary>
 		/// <param name="blocks">新しいチャンクを構成するブロック</param>
