@@ -32,13 +32,13 @@ namespace TGM.Procedural.Map
 		/// <summary>
 		/// マップ生成機
 		/// </summary>
-		private MapGenerator mapGenerator;
+		private IMapGenerator mapGenerator;
 
 		/// <summary>
 		/// 初期化
 		/// </summary>
 		/// <param name="mapGenerator">マップ生成機</param>
-		public void Initialize(MapGenerator mapGenerator)
+		public void Initialize(IMapGenerator mapGenerator)
 		{
 			this.mapGenerator = mapGenerator;
 		}

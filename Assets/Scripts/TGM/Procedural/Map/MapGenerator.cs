@@ -22,7 +22,8 @@ namespace TGM.Procedural.Map
 	/// <summary>
 	/// マップ生成機
 	/// </summary>
-	public class MapGenerator
+	/// <seealso cref="TGM.Procedural.Map.IMapGenerator" />
+	public class MapGenerator : IMapGenerator
 	{
 		/// <summary>
 		/// 波の大きさ
